@@ -17,8 +17,6 @@ export default function App(){
             <Stack.Navigator>
                 <Stack.Screen name="Login" component={Login} options={{headerShow: false}}/>
                 <Stack.Screen name="FrontPage" component={FrontPage} options={{headerShow: false}}/>
-                <Stack.Screen name="Header" component={Header} options={{headerShow: false}}/>
-                <Stack.Screen name="Footer" component={Footer} options={{headerShow: false}}/>
                 <Stack.Screen name="Apix1Planning" component={Apix1Planning} options={{headerShow: false}}/>
                 <Stack.Screen name="Apix2Flight" component={Apix2Flight} options={{headerShow: false}}/>
                 <Stack.Screen name="Apix3CaseOfEm" component={Appix3CaseOfEm} options={{headerShow: false}}/>
