@@ -1,8 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, {useState} from 'react'
 import * as appendix1 from "../src/appendix1.json"
+import InputMethod from './InputMethod';
+import uuid from 'react-native-uuid';
 
-var title2 = 4; // original needs to be title
+var title2 = 1; // original needs to be title
 
 export default function Apix1Planning({route, navigation}) {
   const header = Object.keys(appendix1); //this will get all headers from json
@@ -13,22 +15,35 @@ export default function Apix1Planning({route, navigation}) {
     return inputType[0];
   }
 
-  function getData(datas) {
+
+  // place where to show data and input
+  function formData(datas) {
     const keys = Object.keys(datas); // Get all keys from dictionary
     var inputType;
     return keys.map((key) => {
       inputType = getInputType(datas[key])
       return (
-        <Text key={key}>{key} : {datas[key][inputType]}</Text>
+        <View key = {uuid.v4()}>
+        <Text>{key} : </Text>
+        <InputMethod
+          type={inputType}
+          datas={datas}
+          sentence={key}
+          modify={modifyData}
+          loadedValue = {datas[key][inputType]}
+
+        />
+        </View>
       )
     })
 }
 
-  function modifyData(datas, atribute){
-    var inputType = getInputType(datas[atribute]);
-    datas[atribute][inputType] = "Travel to moon twice";
+  const modifyData = (datas, sentence, value) =>{
+    var inputType = getInputType(datas[sentence]);
+    datas[sentence][inputType] = value;
+    console.log(datas);
   }
-  modifyData(appendix1.InitPlanCheck, "Mission purpose");
+  modifyData(appendix1.InitPlanCheck, "Mission purpose", "Getting NEAR");
 
   return (
     <View>
@@ -37,7 +52,7 @@ export default function Apix1Planning({route, navigation}) {
       {/* <Text>{title}</Text> */}
       {/* title is header from navigation */}
       <Text>{header[title2]}</Text>
-      {getData(appendix1[header[title2]])}
+      {formData(appendix1[header[title2]])}
     </View>
   )
 }
