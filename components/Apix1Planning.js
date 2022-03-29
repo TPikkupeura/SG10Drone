@@ -4,15 +4,15 @@ import * as appendix1 from "../src/appendix1.json"
 import InputMethod from './InputMethod';
 import uuid from 'react-native-uuid';
 
-var title2 = 1; // original needs to be title
+var title2 = 0; // original needs to be title
 
 export default function Apix1Planning({route, navigation}) {
   const header = Object.keys(appendix1); //this will get all headers from json
   const { title } = route.params;
   //console.log(Object.keys(appendix1.InitPlanCheck));
   const getInputType = (jsonRow) =>{
-    var inputType = Object.keys(jsonRow);
-    return inputType[0];
+    var inputType = Object.keys(jsonRow); //there gonna be just one atributte
+    return inputType[0];                  //I hope so
   }
 
 
@@ -31,7 +31,6 @@ export default function Apix1Planning({route, navigation}) {
           sentence={key}
           modify={modifyData}
           loadedValue = {datas[key][inputType]}
-
         />
         </View>
       )

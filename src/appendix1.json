@@ -1,48 +1,48 @@
 {
     "InitPlanCheck":{
-        "Date": {"text":"11.11.2011"},
+        "Date": {"date":"2011-01-11T11:11:00.205Z"},
         "Mission purpose": {"text":"TEST"},
         "The place of the operation": {"text":"LOREM IPSUM"},
-        "Date and time of the operation":{"text":""},
+        "Date and time of the operation":{"text":"input"},
         "Engaged stakeholders":{"text":"Hobbit"}
     },
     "Flight type check":{
-        "Date": {"text":""},
-        "Check if the operation falls under the open category": {"text":""},
-        "Check if the operation falls under the 'specific' category":{"text":""},
-        "Check if the operation is subject to a specific NO-GO from the competent authority": {"text":""},
-        "Check if the operation is covered by a 'standard scenario' included in the appendix to the UAS Regulation or by a 'predefined risk assessment' published by EASA": {"text":""}
+        "Date": {"date":"input"},
+        "Check if the operation falls under the open category": {"text":"input"},
+        "Check if the operation falls under the 'specific' category":{"text":"input"},
+        "Check if the operation is subject to a specific NO-GO from the competent authority": {"text":"input"},
+        "Check if the operation is covered by a 'standard scenario' included in the appendix to the UAS Regulation or by a 'predefined risk assessment' published by EASA": {"text":"input"}
     },
     "Airspace restriction checks":{
-        "Aircraft weight restrictions": {"text":""},
-        "Aircraft reservations when mission is planned to execute": {"text":""},
-        "Maximum altitude for operation": {"text":""},
-        "Need for NOTAM": {"text":""},
-        "Need for Tempo-D application": {"text":""}
+        "Aircraft weight restrictions": {"text":"input"},
+        "Aircraft reservations when mission is planned to execute": {"text":"input"},
+        "Maximum altitude for operation": {"text":"input"},
+        "Need for NOTAM": {"text":"input"},
+        "Need for Tempo-D application": {"text":"input"}
     },
     "Mission preparation checklist":{
-        "Date": {"text":""},
-        "Check needed mission-specific payload accessories": {"text":""},
-        "Check weather forecast": {"text":""},
-        "Check UAS updates": {"text":""},
-        "Check UAS settings": {"text":""},
-        "Download offline maps if possible": {"text":""},
-        "Perform detailed operation and flight path planning": {"text":""},
-        "Drone payload check against UAS specifications": {"text":""},
-        "Check the operation duration and the flight path to be within the UAS specifications. Keep a margin with the maximum values. Take into account weather affection.": {"text":""}
+        "Date": {"text":"input"},
+        "Check needed mission-specific payload accessories": {"text":"input"},
+        "Check weather forecast": {"text":"input"},
+        "Check UAS updates": {"text":"input"},
+        "Check UAS settings": {"text":"input"},
+        "Download offline maps if possible": {"text":"input"},
+        "Perform detailed operation and flight path planning": {"text":"input"},
+        "Drone payload check against UAS specifications": {"text":"input"},
+        "Check the operation duration and the flight path to be within the UAS specifications. Keep a margin with the maximum values. Take into account weather affection.": {"text":"input"}
     },
     "Site survey checklist":{
-        "Date": {"text":""},
-        "Pilot certificate level requirement": {"text":""},
-        "Drone take-off and landing area": {"text":""},
-        "Drone optional/emergency landing areas": {"text":""},
-        "PIC location during the mission": {"text":""},
-        "Obstacles in the area": {"text":""},
-        "Wildlife in vicinity": {"text":""},
-        "Possible risk of losing positioning signal": {"text":""},
-        "Possible risk of loosing UA control link": {"text":""},
-        "Need for observers": {"text":""},
-        "Need for closing or blocking site from public during mission": {"text":""}
+        "Date": {"text":"input"},
+        "Pilot certificate level requirement": {"text":"input"},
+        "Drone take-off and landing area": {"text":"input"},
+        "Drone optional/emergency landing areas": {"text":"input"},
+        "PIC location during the mission": {"text":"input"},
+        "Obstacles in the area": {"text":"input"},
+        "Wildlife in vicinity": {"text":"input"},
+        "Possible risk of losing positioning signal": {"text":"input"},
+        "Possible risk of loosing UA control link": {"text":"input"},
+        "Need for observers": {"text":"input"},
+        "Need for closing or blocking site from public during mission": {"text":"input"}
     }
     
 }
