@@ -1,12 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Button } from 'react-native'
 import React, {useState} from 'react'
 import * as appendix1 from "../src/appendix1.json"
 import InputMethod from './InputMethod';
 import uuid from 'react-native-uuid';
 
-var title2 = 0; // original needs to be title
-
 export default function Apix1Planning({route, navigation}) {
+  const [title2, setTitle2] = useState(0); // original needs to be title
+  const titleSwitch = () =>{  // temporary title switch
+    if(title2 < 5){setTitle2(title2+1)}
+    else{setTitle2(0)}
+  }
+
   const header = Object.keys(appendix1); //this will get all headers from json
   const { title } = route.params;
   //console.log(Object.keys(appendix1.InitPlanCheck));
@@ -46,6 +50,7 @@ export default function Apix1Planning({route, navigation}) {
 
   return (
     <View>
+      <Button title={"NextPage"} color="blue" onPress={titleSwitch} />
       <Text>MISSION PLANNING</Text>
 
       {/* <Text>{title}</Text> */}

@@ -7,6 +7,7 @@ import React, {useState, useEffect}from 'react';
 export default function InputMethod({type, datas, sentence, modify, loadedValue}) {
     const [isPickerShow, setIsPickerShow] = useState(false);
     const [date, setDate] = useState("");
+    const [changeOnDate, setChangeOnDate] = useState(false);
     const [defValue, setDefValue] = useState(loadedValue); //defValue inicialize loadedValue
 
 
@@ -15,7 +16,8 @@ export default function InputMethod({type, datas, sentence, modify, loadedValue}
       };
     
       const onChange = (event, value) => {
-        setDate(value)
+        setChangeOnDate(true); //allow acess to write date to json
+        setDate(value);
         if (Platform.OS === 'android') {
           setIsPickerShow(false);
         }
@@ -26,10 +28,17 @@ export default function InputMethod({type, datas, sentence, modify, loadedValue}
             var day = (date.getDate().toString().length < 2 ? "0"+date.getDate().toString() :date.getDate());
             return(day+" "+month);
             }
+        else{
+          return parseDate(defValue); //this will bring back date value if user moving to home screen
+        }
+
         }
 
       useEffect(()=>{
-        modify(datas,sentence,date);
+        if(changeOnDate){
+          modify(datas,sentence,date);
+          setChangeOnDate(false);
+        }
         setDefValue(date);
       },[date])
       useEffect(()=>{
@@ -45,7 +54,7 @@ export default function InputMethod({type, datas, sentence, modify, loadedValue}
             autoCapitalize="words"
             editable={true}
             onChangeText={text => modify(datas,sentence,text)}
-            onSubmitEditing={()=> false} //optional
+            onSubmitEditing={()=> null} //optional
             />
         )
         }
