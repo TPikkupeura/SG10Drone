@@ -8,10 +8,10 @@
     },
     "Flight type check":{
         "Date": {"date":"input"},
-        "Check if the operation falls under the open category": {"text":"input"},
-        "Check if the operation falls under the 'specific' category":{"text":"input"},
-        "Check if the operation is subject to a specific NO-GO from the competent authority": {"text":"input"},
-        "Check if the operation is covered by a 'standard scenario' included in the appendix to the UAS Regulation or by a 'predefined risk assessment' published by EASA": {"text":"input"}
+        "Check if the operation falls under the open category": {"check":"input"},
+        "Check if the operation falls under the 'specific' category":{"check":"input"},
+        "Check if the operation is subject to a specific NO-GO from the competent authority": {"check":"input"},
+        "Check if the operation is covered by a 'standard scenario' included in the appendix to the UAS Regulation or by a 'predefined risk assessment' published by EASA": {"check":"input"}
     },
     "Airspace restriction checks":{
         "Aircraft weight restrictions": {"text":"input"},
