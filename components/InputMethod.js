@@ -50,7 +50,8 @@ export default function InputMethod({type, datas, sentence, modify, loadedValue}
             <TextInput
             style={[styles.gameinfo, {color:"red"}]}
             returnKeyType="next"
-            placeholder={loadedValue}
+            placeholder={defValue}
+            placeholderTextColor={(defValue !== "input")?"red":"gray"} 
             autoCapitalize="words"
             editable={true}
             onChangeText={text => modify(datas,sentence,text)}
