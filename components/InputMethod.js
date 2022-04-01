@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, TextInput, Button, Platform} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import CheckBox from '@react-native-community/checkbox';
 import React, {useState, useEffect}from 'react';
+import { Checkbox } from 'react-native-paper';
 
 /* type:text... datas:jsonObject sentence:sentenceInObject modify:function loadedValue:valueFromJsonObject
  */
@@ -9,6 +11,8 @@ export default function InputMethod({type, datas, sentence, modify, loadedValue}
     const [date, setDate] = useState("");
     const [changeOnDate, setChangeOnDate] = useState(false);
     const [defValue, setDefValue] = useState(loadedValue); //defValue inicialize loadedValue
+    const [checked, setChecked] = React.useState(false);
+
 
 
     const showPicker = () => {
@@ -22,6 +26,13 @@ export default function InputMethod({type, datas, sentence, modify, loadedValue}
           setIsPickerShow(false);
         }
       };
+
+    const setCheckbox = () => {
+      setChecked(!checked);
+      if(checked){modify(datas,sentence,"false");}
+      else{modify(datas,sentence,"true");}
+    }
+
       function parseDate(date){
         if(date != ""){
             var month = (date.getMonth().toString().length < 2 ? "0"+(date.getMonth()+1).toString() :date.getMonth()+1);
@@ -44,6 +55,12 @@ export default function InputMethod({type, datas, sentence, modify, loadedValue}
       useEffect(()=>{
         setDefValue(loadedValue);
       },[])
+      useEffect(()=>{
+        if(defValue === "true"){
+          setChecked(true);
+          setDefValue("");
+        }
+      },[checked])
 
     if(type === "text"){
         return (
@@ -79,6 +96,17 @@ export default function InputMethod({type, datas, sentence, modify, loadedValue}
           </View>
         )
         }
+    if(type === "check"){
+      return(
+        <Checkbox
+        status={checked ? 'checked' : 'unchecked'}
+        color='red'
+        onPress={() => {
+          setCheckbox();
+        }}
+      />
+      )
+    }
 
     return(
         <></>

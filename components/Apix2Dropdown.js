@@ -5,7 +5,8 @@ import * as appendix2 from '../src/appendix2.json'
 
 export default function Apix2Dropdown() {
     const header = Object.keys(appendix2);
-
+    const [title3, setTitle3] = useState(0);
+    
     const [test, setTest] = useState('test1');
 
     const handleHeaderChange = (event) => {
