@@ -7,7 +7,7 @@ import uuid from 'react-native-uuid';
 export default function Apix1Planning({route, navigation}) {
   const [title2, setTitle2] = useState(0); // original needs to be title
   const titleSwitch = () =>{  // temporary title switch
-    if(title2 < 5){setTitle2(title2+1)}
+    if(title2 < 4){setTitle2(title2+1)}
     else{setTitle2(0)}
   }
 
