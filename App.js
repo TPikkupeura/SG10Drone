@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 import Apix1Planning from './components/Apix1Planning';
 import Apix2Flight from './components/Apix2Flight';
 import Appix3CaseOfEm from './components/Apix3CaseOfEm';
+import Mission from './components/Mission';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,7 @@ export default function App(){
         <NavigationContainer>
             <Stack.Navigator>
                 <Stack.Screen name="Login" component={Login} options={{headerShow: false}}/>
+                <Stack.Screen name="Mission" component={Mission} options={{headerShow: false}}/>
                 <Stack.Screen name="FrontPage" component={FrontPage} options={{headerShow: false}}/>
                 <Stack.Screen name="Apix1Planning" component={Apix1Planning} options={{headerShow: false}}/>
                 <Stack.Screen name="Apix2Flight" component={Apix2Flight} options={{headerShow: false}}/>

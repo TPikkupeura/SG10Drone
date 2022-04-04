@@ -8,7 +8,7 @@ export default function Login({navigation}) {
       <Pressable style={styles.buttonStyle}>
                 <Button
                     title="Log in"
-                    onPress={()=> navigation.navigate('FrontPage')}>   
+                    onPress={()=> navigation.navigate('Mission')}>   
                 </Button>
             </Pressable>
     </View>
