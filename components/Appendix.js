@@ -1,7 +1,7 @@
 import { Alert, Button, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import {db, APPENDIX} from '../firebase/Config';
 import { useEffect, useState } from 'react';
-import { Title } from '../components/Title';
+import { Title_Input } from './Title_Input';
 
 export default function Appendix({route, navigation}) {
   const [data, setData] = useState({});
@@ -33,14 +33,13 @@ export default function Appendix({route, navigation}) {
         <ScrollView>
           {dataKeys.length > 0 ? (
             dataKeys.map(key => (
-              <Title
-                key={key}
+              <Title_Input
                 id={key}
                 sentence={data[key]}
                 />
             ))
           ) : (
-            <Text style={styles.infoText}>NO ITEMS (sentences)?</Text>
+            <Text style={styles.infoText}>NO ITEMS (sentences)? / LOADING</Text>
           )
         }
         </ScrollView>
@@ -53,9 +52,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    marginTop: 50,
-    marginLeft: 20,
-    marginRight: 20,
     height: '20%',
   },
   contentContainerStyle: {
@@ -71,6 +67,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     marginLeft: 10,
-    width: "80%"
+
   },
 });
