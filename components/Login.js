@@ -1,104 +1,78 @@
-import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native'
-//import {signInWithEmailAndPassword, onAuthStateChanged, signOut} from 'firebase/auth'
-//import { auth } from ""
+import { StatusBar } from "expo-status-bar";
+import React, { useState } from 'react'
 
-//5.4.2021 - Created input boxes that update the variable when text is inserted, still WIP
-//plenty of hours figuring out everything 
-//took a really long time just to find out that its possible to use 'this.props.navigation.navigate('Mission')' 
-//rather than go with a 'function balls({navigation})' with a button including 'navigation.navigate('FrontPage')'
-//style also isnt permanent, just something for now before its seperate. 
+import { View, Text, TouchableOpacity, TextInput } from 'react-native'
+import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
+import { auth } from "../firebase/Config.js"
+import styles from '../style/Style.js'
 
-class Login extends Component{
-   state = {
-      email: '',
-      password: ''
-   }
-   handleEmail = (text) => {
-      this.setState({ email: text })
-   }
-   handlePassword = (text) => {
-      this.setState({ password: text })
-   }
-   login = (email, pass) => {
-      alert('email: ' + email + ' password: ' + pass)
-   }
+/* 11.4.2021 - Spent too much time on this troubleshooting everything. Finally able to push!! Created a Style.js file and set up auth with firebase.. tested working with the dronepilot firebase projects sdk setup/config. 
+This means i had to use the apikey config from the DronePilot firebase. Also added a skip login button, so that the project is functional offline too, for now. Also thought of and tried out the usage of a logo in the login. */ 
 
-/*
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-  });
+function Login({navigation}) {
 
+   const [loginEmail, setEmail] = useState("");
+   const [loginPassword, setPassword] = useState("");
 
+  const [user, setUser] = useState({});
+
+   onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+   
   const login = async () => {
-    try {
-      const user = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-    }
-  }
-
-  const logout = async () => {
-    await signOut(auth);
-  }
-*/  
-
-
-
-   render() {
-    
-    
-      return (
-         <View style = {styles.container}>
-            <TextInput style = {styles.input}
-               underlineColorAndroid = "transparent"
-               placeholder = "Email..."
-               placeholderTextColor = "#000000"
-               autoCapitalize = "none"
-               onChangeText = {this.handleEmail}/>
-            
-            <TextInput style = {styles.input}
-               underlineColorAndroid = "transparent"
-               placeholder = "Password..."
-               placeholderTextColor = "#000000"
-               autoCapitalize = "none"
-               onChangeText = {this.handlePassword}/>
-            
-              <TouchableOpacity 
-               style = {styles.submitButton}
-               onPress = {
-                  () => this.props.navigation.navigate('Mission')
-               }>
-               <Text style = {styles.submitButtonText}> Submit </Text>
-            </TouchableOpacity>
-
-         </View>
-      )
+   try {
+     const user = await signInWithEmailAndPassword(
+       auth,
+       loginEmail,
+       loginPassword
+     );
+     console.log(user);
+     navigation.navigate('Mission')
+   } catch (error) {
+     console.log(error.message);
    }
-}
-
-export default Login 
+ };
 
 
-const styles = StyleSheet.create({
-   container: {
-      paddingTop: 23
-   },
-   input: {
-      margin: 15,
-      height: 40,
-      borderWidth: 1
-   },
-   submitButton: {
-      backgroundColor: '#000000',
-      padding: 10,
-      margin: 15,
-      height: 40,
-   },
-   submitButtonText:{
-      color: 'white'
-   }
-})
+
+   return (
+     <View style={styles.container}>
+       <StatusBar style="auto" />
+       <View style={styles.inputView}>
+         <TextInput
+           style={styles.TextInput}
+           placeholder="Email..       "
+           placeholderTextColor="black"
+           onChangeText={(loginEmail) => setEmail(loginEmail)}
+         />
+       </View>
+  
+       <View style={styles.inputView}>
+         <TextInput
+           style={styles.TextInput}
+           placeholder="Password..    "
+           placeholderTextColor="black"
+           secureTextEntry={true}
+           onChangeText={(loginPassword) => setPassword(loginPassword)}
+         />
+       </View>
+  
+  
+       <TouchableOpacity style={styles.loginBtn}
+       onPress = {login}>
+         <Text style={styles.loginText}>LOGIN</Text>
+       </TouchableOpacity>
+      
+       <TouchableOpacity style={styles.loginBtn}
+       onPress = {()=> navigation.navigate('Mission')}>
+         <Text style={styles.loginText}>SKIPLOGIN</Text>
+       </TouchableOpacity>
+      
+     </View>
+   );
+ }
+
+
+ export default Login;
