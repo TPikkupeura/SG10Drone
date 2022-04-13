@@ -1,30 +1,57 @@
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native'
-import React, {useState} from 'react'
-import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
-import { Alert } from 'react-native-web';
-//import {db, ROOT_REF} from './firebase/Config'; 
+import { StyleSheet, Text, View, Button, TextInput, Alert, ScrollView, Pressable } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {db, LOGS} from '../firebase/Config';
+import Entypo from '@expo/vector-icons/Entypo'
+
 export default function Mission({navigation}) {
 
-    const [title, onChangeTitle] = useState("");
-    const [row, setRow] = useState([]);
-    const arr = [...row];
-    //const [newMission, setNewMission] = useState('');
+    const [newMission, setNewMission] = useState('');
+    const [missions, setMissions] = useState({});
 
-    /* function addNewMission() {
-      if(addNewMission.trim() !== "") {
-        db.ref(ROOT_REF).push({
-          done: false,
+    useEffect(() => {
+      db.ref(LOGS).on('value', querySnapShot => {
+        let data = querySnapShot.val() ? querySnapShot.val() : {};
+        let missionItems = {...data};
+        setMissions(missionItems);
+      });
+    }, []);
+
+    function addNewMission() {
+      if(newMission.trim() !== "") {
+        db.ref(LOGS).push({
+          date: "",
           missionItem: newMission
         })
         setNewMission('');
       }
-    } */
+    }
 
-    /* function removeMissions() {
+    const MissionItem = ({missionItem: {missionItem: title}, id}) => {
+
+      const onRemove = () => {
+          db.ref(LOGS + [id]).remove();
+      };
+      
+      return (
+          <View style={styles.missionItem}>
+              <Pressable onPress={() => navigation.navigate("FrontPage")}>
+                  <Text
+                      style={
+                          [styles.missionText]
+                      }>{title}
+                  </Text>
+              </Pressable>
+              <Pressable>
+                  <Entypo name={'trash'} size={32} onPress={onRemove}/>
+              </Pressable>
+          </View>
+      );
+  }
+   /*  function removeMissions() {
       db.ref(ROOT_REF).remove();
     } */
 
-    const createTwoButtonAlert = () => Alert.alert(
+    /* const createTwoButtonAlert = () => Alert.alert(
       "Missions", "Remove all missions?", [{
         text: "Cancel",
         onPress: () => console.log("Cancel Pressed"),
@@ -34,20 +61,10 @@ export default function Mission({navigation}) {
         text: "OK", onPress: () => removeMissions()
       }],
       { cancelable: false}
-    );
+    ); */
 
-    function CreateMission() {
-            arr.push(
-                <Button
-                key={title}
-                title={title}
-                onPress={()=> navigation.navigate('FrontPage')}>
-                </Button>
-            );
-            setRow(arr);
-            //console.log(row);
-    }
-  
+  let missionKeys = Object.keys(missions);
+
   return (
     <View 
       style={styles.container}
@@ -55,23 +72,35 @@ export default function Mission({navigation}) {
       <View style={styles.newItem}>
         <TextInput
           style={styles.input}
-          onChangeText={onChangeTitle}
-          value={title}
+          onChangeText={setNewMission}
+          value={newMission}
           placeholder="Create Title"
         />
       <View style={styles.buttonStyle}>
         <Button
         title="Create Mission"
-        onPress={()=> CreateMission()}
+        onPress={()=> addNewMission()}
         />
-        <View style={styles.missions}>{row}</View>
       </View>
-      <View style={styles.buttonStyle}>
+      <ScrollView>
+        {missionKeys.length > 0 ? (
+          missionKeys.map(key => (
+            <MissionItem
+              key={key}
+              id={key}
+              missionItem={missions[key]}
+            />
+          ))
+        ) : (
+          <Text style={styles.infoText}>There are no missions</Text>
+        )}
+        {/* <View style={styles.buttonStyle}>
         <Button
         title="Remove all Missions"
         onPress={() => createTwoButtonAlert()}
         />
-      </View>
+        </View> */}
+      </ScrollView>
       </View>
     </View>
   )
@@ -113,5 +142,20 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginVertical: 20,
     fontSize: 18
+  },
+  missionItem: {
+    flexDirection: 'row',
+    marginVertical: 10,
+    alignItems: 'center',
+  },
+  missionText: {
+      borderColor: '#afafaf',
+      paddingHorizontal: 8,
+      paddingVertical: 5,
+      borderWidth: 1,
+      borderRadius: 5,
+      marginRight: 10,
+      marginLeft: 10,
+      minWidth: '60%'
   }
 })
