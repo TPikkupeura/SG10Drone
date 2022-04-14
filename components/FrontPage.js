@@ -7,7 +7,12 @@ export default function FrontPage({navigation}) {
                   "Airspace restriction checks",
                   "Mission preparation chcecklist",
                   "Site survey checklist"];
-  const appen2 = ["OnsiteOperation"]
+  const appen2 = ["AircraftVisualInspection",
+                  "OnsiteOperation",
+                  "PostMission",
+                  "PreFlightChecklist",
+                  "PreFlightPreparationOnSite",
+                  "WhileOnFlight"]
   
 
   return (

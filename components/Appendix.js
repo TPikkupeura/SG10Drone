@@ -7,6 +7,38 @@ export default function Appendix({route, navigation}) {
   const [data, setData] = useState({});
   const { title, topHeader, appenHeader } = route.params;
   const [titleNum, setTitleNum] = useState(title); // copy constant title to titleNum
+  const [userId, setUserId] = useState("userId"); //here needs to be user key for now is constant
+  const [missionId, setMissionId] = useState("-N-XcaK33eNw6hOqb10k") // static mission 7 for now
+  const [missionDate, setMissionDate] = useState("12-12-2022") //for now
+  const [answers, setAnswers] = useState({})
+
+  function authorizeAccess(){
+    let dbUserId;
+    db.ref("missions").child(missionId).child("userId").on('value', (snapshot)=> {dbUserId = snapshot.val();});
+    if(dbUserId === userId){return true}
+    else{return false};
+  }
+
+  function saveAnswers(){
+    let dbUserId;
+    db.ref("missions").child(missionId).child("userId").on('value', (snapshot)=> {dbUserId = snapshot.val();});
+    if(authorizeAccess()){
+    let answ = Object.keys(answers);  
+      answ.map(key => (
+          db.ref("missions").child(missionId).child("date").child(missionDate).child(key).set(
+            answers[key]
+          )
+          ))
+        }
+    }
+  
+  useEffect(()=>{
+    if(authorizeAccess){ //store answers from db to answers useState
+      db.ref("missions").child(missionId).child("date").child(missionDate).on('value', (snapshot)=> {setAnswers(snapshot.val());});
+    }
+    //console.log(answers); //loaded answers from db
+    // db.ref("missions").child(missionId).child("date").child(missionDate).on('value', (snapshot)=> {console.log(snapshot.val());});
+  },[])
 
   useEffect(() =>{
     db.ref(APPENDIX+topHeader+appenHeader[titleNum]).on('value', querySnapShot=>{
@@ -28,13 +60,16 @@ export default function Appendix({route, navigation}) {
     <View
       style={styles.container}
       contentContainerStyle={styles.contentContainerStyle}>
-      <Button title={"NextPage"} color="blue" onPress={titleSwitch} />  
+      <Button title={"NextPage"} color="blue" onPress={titleSwitch} />
+      <Button title={"SaveToDB"} color="blue" onPress={saveAnswers} />  
       <View style={styles.buttonStyle}>
         <ScrollView>
           {dataKeys.length > 0 ? (
             dataKeys.map(key => (
               <Title_Input
                 id={key}
+                answ={answers}
+                setAnsw={setAnswers}
                 sentence={data[key]}
                 />
             ))
