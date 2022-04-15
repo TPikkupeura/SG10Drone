@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, View, Text, Pressable, TextInput, Button } from 'react-native';
-import {db, APPENDIX} from '../firebase/Config';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Checkbox } from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown'
+import ShowMap from '../components/ShowMap'
 
 export const Title_Input = ({sentence: {sentence: title, inputType: inputType, predefined: predefined }, id, answ, setAnsw}) => {
     const [isPickerShow, setIsPickerShow] = useState(false);
@@ -150,6 +150,15 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
             )
             }
     }
+
+    const inputMap = () => {
+        if(inputType === "gps"){
+            return(
+                <ShowMap/>
+            )
+        }
+    }
+
     //console.log(id);
     return(
         <View >
@@ -166,6 +175,7 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
             {inputText()}
             {inputDate()}
             {inputSelect()}
+            {inputMap()}
         </View>
    )
 
