@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import { Platform, Text, View, StyleSheet, Dimensions, Button } from 'react-native';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
@@ -12,60 +12,80 @@ const INITIAL_LONGTITUDE_DELTA = 0.0421;
 export default function ShowMap() {
   const [latitude, setLatitude] = useState(INITIAL_LATITUDE);
   const [longitude, setLongitude] = useState(INITIAL_LONGTITUDE);
+  const [region, setRegion] = useState({
+                                        latitude: 65.05874942895484,
+                                        longitude: 25.457204312039572,
+                                        latitudeDelta: 0.0922,
+                                        longitudeDelta: 0.0421,
+                                        });
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [text, setText] = useState("Waiting..");
+  const [text, setText] = useState("Waiting for signal..");
   const [sw, setSw] = useState(false);
+  const [current, setCurrent] = useState(false);
+  const mapRef = useRef(null);
 
   const show = () => {
     setSw(!sw);
   }
   useEffect(() => {
-    (async () => {
-      if (Platform.OS === 'android' && !Constants.isDevice) {
-        setErrorMsg(
-          'Oops, this will not work on Snack in an Android emulator. Try it on your device!'
-        );
-        return;
-      }
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
+    if(sw){
+      (async () => {
+        if (Platform.OS === 'android' && !Constants.isDevice) {
+          setErrorMsg(
+            'Oops, this will not work on Snack in an Android emulator. Try it on your device!'
+          );
+          return;
+        }
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          setErrorMsg('Permission to access location was denied');
+          return;
+        }
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-      if (errorMsg) {
-        setText(errorMsg);
-      } else if (location) {
-        setText(JSON.stringify(location));
-        setLatitude(location.coords.latitude);
-        setLongitude(location.coords.longitude);
-      }
-    })();
-  }, []);
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+        if (errorMsg) {
+          setText(errorMsg);
+        } else if (location) {
+          setText("Position loaded");
+          setLatitude(location.coords.latitude);
+          setLongitude(location.coords.longitude);
+          setRegion({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+            })
+        }
+      })();
+    }
+  }, [sw]);
 
   useEffect(()=>{
 
   },[])
 
+  const goToCurrent = () => {
+    setCurrent(true);
+    //Animate the user to new region. Complete this animation in 3 seconds
+    mapRef.current.animateToRegion(region, 3 * 1000);
+  };
+
+
   const renderMap = () => {
     return(
       <MapView 
+        ref={mapRef}
         style={styles.map} 
-        initialRegion={{
-          latitude: latitude,
-          longitude: longitude,
-          latitudeDelta: INITIAL_LATITUDE_DELTA,
-          longitudeDelta:  INITIAL_LONGTITUDE_DELTA,
-        }}
+        initialRegion={region}
+        onRegionChangeComplete={(region) => setRegion(region)}
         //mapType='satellite'
         >
         <Marker
           
           title="testing"
-          coordinate={{latitude: latitude, longitude: longitude}}
+          coordinate={region}
         ></Marker>
       </MapView>
     )
@@ -73,9 +93,10 @@ export default function ShowMap() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.paragraph}>{text}</Text>
       <View style={styles.statusBar}></View>
-      <Button title={"Get Current possition"} color="yellow" onPress={show} />
+      <Button title={"Show map"} color="green" onPress={show} />
+      <Button onPress={() => goToCurrent()} title="Go to Current pos" />
+      <Text style={styles.paragraph}>{sw?text:null}</Text>
       {sw?renderMap():null}
     </View>
   );
