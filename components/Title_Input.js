@@ -19,11 +19,6 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
         addElement(answers, {[id]:input})
         setAnsw(answers);
     }
-
-    useEffect(()=>{
-        //console.log(answ[id]);
-        //saveInput("Oulu");
-    },[])
    
     const styles = StyleSheet.create({
         Item: {
@@ -154,7 +149,15 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
     const inputMap = () => {
         if(inputType === "gps"){
             return(
-                <ShowMap/>
+                <>
+                {answ[id]?<Text>{"la: " + (answ[id].latitude).toFixed(4)+" " + 
+                                          "lo: " + (answ[id].longitude).toFixed(4)}
+                                    </Text>:null}
+                <ShowMap
+                    saveGps={saveInput}
+                    loadedGps={(answ[id] != undefined)? answ[id] : {}}
+                />
+                </>
             )
         }
     }
