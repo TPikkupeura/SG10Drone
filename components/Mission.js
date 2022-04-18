@@ -1,12 +1,18 @@
 import { StyleSheet, Text, View, Button, TextInput, Alert, ScrollView, Pressable } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {db, LOGS} from '../firebase/Config';
-import Entypo from '@expo/vector-icons/Entypo'
+import Entypo from '@expo/vector-icons/Entypo';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import styles from '../style/Style';
 
 export default function Mission({navigation}) {
 
     const [newMission, setNewMission] = useState('');
     const [missions, setMissions] = useState({});
+    const [date, setDate] = useState('');
+
+    //DATE
+
 
     useEffect(() => {
       db.ref(LOGS).on('value', querySnapShot => {
@@ -19,14 +25,14 @@ export default function Mission({navigation}) {
     function addNewMission() {
       if(newMission.trim() !== "") {
         db.ref(LOGS).push({
-          date: "",
+          date: date,
           missionItem: newMission
         })
         setNewMission('');
       }
     }
 
-    const MissionItem = ({missionItem: {missionItem: title}, id}) => {
+    const MissionItem = ({missionItem: {missionItem: title, date}, id}) => {
 
       const onRemove = () => {
           db.ref(LOGS + [id]).remove();
@@ -39,6 +45,7 @@ export default function Mission({navigation}) {
                       style={
                           [styles.missionText]
                       }>{title}
+                        {date}
                   </Text>
               </Pressable>
               <Pressable>
@@ -47,10 +54,6 @@ export default function Mission({navigation}) {
           </View>
       );
   }
-   /*  function removeMissions() {
-      db.ref(ROOT_REF).remove();
-    } */
-
     /* const createTwoButtonAlert = () => Alert.alert(
       "Missions", "Remove all missions?", [{
         text: "Cancel",
@@ -67,7 +70,7 @@ export default function Mission({navigation}) {
 
   return (
     <View 
-      style={styles.container}
+      style={styles.missionContainer}
       contentContainerStyle={styles.contentContainerStyle}>
       <View style={styles.newItem}>
         <TextInput
@@ -105,57 +108,3 @@ export default function Mission({navigation}) {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    marginTop: 50,
-    marginLeft: 30,
-    height: '20%',
-  },
-  contentContainerStyle: {
-    alignItems: 'flex-start',
-  },
-  header: {
-    fontSize: 30,
-  },
-  newItem: {
-    marginVertical: 10,
-    alignItems: 'flex-start',
-  },
-  infoText: {
-    marginVertical: 10,
-    alignItems: 'flex-start',
-  },
-  buttonStyle: {
-    marginTop: 10,
-    marginBottom: 10,
-    width: "80%",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#afafaf",
-    width: '80%',
-    borderRadius: 5,
-    paddingHorizontal: 5,
-    paddingVertical: 5,
-    marginVertical: 20,
-    fontSize: 18
-  },
-  missionItem: {
-    flexDirection: 'row',
-    marginVertical: 10,
-    alignItems: 'center',
-  },
-  missionText: {
-      borderColor: '#afafaf',
-      paddingHorizontal: 8,
-      paddingVertical: 5,
-      borderWidth: 1,
-      borderRadius: 5,
-      marginRight: 10,
-      marginLeft: 10,
-      minWidth: '60%'
-  }
-})

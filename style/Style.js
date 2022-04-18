@@ -41,4 +41,55 @@ export default StyleSheet.create({
     marginTop: 40,
     backgroundColor: "#CCC",
   },
+  missionContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    marginTop: 50,
+    marginLeft: 30,
+    height: '20%',
+  },
+  contentContainerStyle: {
+    alignItems: 'flex-start',
+  },
+  header: {
+    fontSize: 30,
+  },
+  newItem: {
+    marginVertical: 10,
+    alignItems: 'flex-start',
+  },
+  infoText: {
+    marginVertical: 10,
+    alignItems: 'flex-start',
+  },
+  buttonStyle: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: "80%",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#afafaf",
+    width: '80%',
+    borderRadius: 5,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+    marginVertical: 20,
+    fontSize: 18
+  },
+  missionItem: {
+    flexDirection: 'row',
+    marginVertical: 10,
+    alignItems: 'center',
+  },
+  missionText: {
+      borderColor: '#afafaf',
+      paddingHorizontal: 8,
+      paddingVertical: 5,
+      borderWidth: 1,
+      borderRadius: 5,
+      marginRight: 10,
+      marginLeft: 10,
+      minWidth: '60%'
+  }
 });
