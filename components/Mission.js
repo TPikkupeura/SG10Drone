@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button, TextInput, Alert, ScrollView, Pressable } from 'react-native';
+import { Text, View, Button, TextInput, Alert, ScrollView, Pressable } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {db, LOGS} from '../firebase/Config';
 import Entypo from '@expo/vector-icons/Entypo';
@@ -9,9 +9,51 @@ export default function Mission({navigation}) {
 
     const [newMission, setNewMission] = useState('');
     const [missions, setMissions] = useState({});
-    const [date, setDate] = useState('');
+    const [missionDate, setMissionDate] = useState('');
+    const [isPickerShow, setIsPickerShow] = useState(false);
+
 
     //DATE
+    const showPicker = () => {
+      setIsPickerShow(!isPickerShow);
+    };
+
+    const onChange = (event, value) => {
+      setMissionDate((parseDate(value)));
+      if (Platform.OS === 'android') {
+        setIsPickerShow(false);
+      }
+    };
+
+  function parseDate(date){
+      if(date != ""){
+          var year = date.getFullYear()
+          var month = (date.getMonth().toString().length < 2 ? "0"+(date.getMonth()+1).toString() :date.getMonth()+1);
+          var day = (date.getDate().toString().length < 2 ? "0"+date.getDate().toString() :date.getDate());
+          return(day+"-"+month+"-"+year);
+          }
+      }
+
+
+      const inputMissionDate = () => {
+              return(
+                <View styles={styles.text}>
+                  <View styles={styles.btnContainer}>
+                    <Button title={"Select Date"} color="purple" onPress={showPicker} />
+                {isPickerShow && (
+                  <DateTimePicker
+                    value={new Date(Date.now())}
+                    mode={'date'}
+                    display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                    is24Hour={true}
+                    onChange={onChange}
+                    style={styles.datePicker}
+                  />
+                )}
+                 </View>
+              </View>
+            )
+            }
 
 
     useEffect(() => {
@@ -25,10 +67,11 @@ export default function Mission({navigation}) {
     function addNewMission() {
       if(newMission.trim() !== "") {
         db.ref(LOGS).push({
-          date: date,
+          date: missionDate,
           missionItem: newMission
         })
         setNewMission('');
+        setMissionDate('');
       }
     }
 
@@ -45,6 +88,11 @@ export default function Mission({navigation}) {
                       style={
                           [styles.missionText]
                       }>{title}
+                  </Text>
+                  <Text
+                      style={
+                          [styles.missionText]
+                      }>{date}
                   </Text>
               </Pressable>
               <Pressable>
@@ -78,6 +126,8 @@ export default function Mission({navigation}) {
           value={newMission}
           placeholder="Create Title"
         />
+         <Text>{missionDate}</Text>
+        {inputMissionDate()}
       <View style={styles.buttonStyle}>
         <Button
         title="Create Mission"
