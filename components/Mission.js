@@ -45,7 +45,6 @@ export default function Mission({navigation}) {
                       style={
                           [styles.missionText]
                       }>{title}
-                        {date}
                   </Text>
               </Pressable>
               <Pressable>
