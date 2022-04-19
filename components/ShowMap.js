@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef} from 'react';
-import { Platform, Text, View, StyleSheet, Dimensions, Button, TextInput } from 'react-native';
+import { Platform, Text, View, StyleSheet, Dimensions, Button, TextInput, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import MapView, { Marker } from 'react-native-maps';
@@ -65,11 +65,35 @@ export default function ShowMap({saveGps, loadedGps}) {
   }, [sw]);
 
   useEffect(()=>{
-    if(marker)saveGps({
-                      latitude:marker.latitude,
-                      longitude:marker.longitude
+    if(latTextIn && lonTextIn)saveGps({
+                      latitude:region.latitude,
+                      longitude:region.longitude
                     });
-    },[marker])
+    },[region])
+
+    useEffect(()=>{
+      if(marker)saveGps({
+                        latitude:marker.latitude,
+                        longitude:marker.longitude
+                      });
+      },[marker])
+
+  useEffect(()=>{
+    if((latTextIn != null) && (lonTextIn != null)){
+      let lat = parseFloat(latTextIn);
+      let lon = parseFloat(lonTextIn);
+      console.log(lat);
+      let reg = {
+        latitude: lat,
+        longitude: lon,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      }
+      setRegion(reg);
+      show();
+      //console.log(region);
+    }
+  },[lonTextIn])
 
   useEffect(()=>{
     if(loadedGps.longitude){
@@ -87,12 +111,14 @@ export default function ShowMap({saveGps, loadedGps}) {
     //Animate the user to new region. Complete this animation in 3 seconds
     mapRef.current.animateToRegion(gpsLoc, 3 * 1000);
     setMarker(gpsLoc);
+    setLatTextIn(null);
+    setLonTextIn(null);
   };
 
 
   const renderMap = () => {
     return(
-      <MapView 
+      <MapView
         ref={mapRef}
         style={styles.map} 
         initialRegion={region}
@@ -113,7 +139,28 @@ export default function ShowMap({saveGps, loadedGps}) {
     )
   }
 
+  const coordValCheck = (value, latORlon) => {
+    let val = parseFloat(value);
+    console.log(val);
+    if(latORlon === "latitude"){
+      if(val >= -90 && val <= 90){
+        return true;
+      }
+      else {
+        return Alert.alert("Latitude value is out of range, try again.")};
+    }
+    if(latORlon === "longitude"){
+      if(val >= -180 && val <= 180){
+        return true;
+      }
+      else {
+        return Alert.alert("Longitude value is out of range, try again.")};
+    }
+  }
+
   const posInputField = () => {
+    let latval;
+    let lonval;
     return(<View>
               <TextInput
                 style={[styles.text, {color:"black"}]}
@@ -121,8 +168,8 @@ export default function ShowMap({saveGps, loadedGps}) {
                 placeholderTextColor={"red"}
                 placeholder='insert latitude'
                 editable={true}
-                onChangeText={text => setLatTextIn(text)}
-                onSubmitEditing={()=> null} //optional
+                onChangeText={text => (latval=text)}
+                onSubmitEditing={text => coordValCheck(latval,"latitude")?setLatTextIn(latval):null} //optional
                 />
               <TextInput
                 style={[styles.text, {color:"black"}]}
@@ -130,8 +177,8 @@ export default function ShowMap({saveGps, loadedGps}) {
                 returnKeyType="next"
                 placeholderTextColor={"red"}
                 editable={true}
-                onChangeText={text => setLonTextIn(text)}
-                onSubmitEditing={()=> null} //optional
+                onChangeText={text => (lonval=text)}
+                onSubmitEditing={text => coordValCheck(lonval,"longitude")?setLonTextIn(lonval):null} //optional
                 />
           </View>)
   }
