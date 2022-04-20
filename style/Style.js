@@ -44,23 +44,21 @@ export default StyleSheet.create({
   missionContainer: {
     flex: 1,
     backgroundColor: 'white',
-    marginTop: 50,
-    marginLeft: 30,
     height: '20%',
   },
   contentContainerStyle: {
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
   header: {
     fontSize: 30,
   },
   newItem: {
     marginVertical: 10,
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
   infoText: {
     marginVertical: 10,
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
   buttonStyle: {
     marginTop: 10,
@@ -88,8 +86,8 @@ export default StyleSheet.create({
       paddingVertical: 5,
       borderWidth: 1,
       borderRadius: 5,
-      marginRight: 10,
-      marginLeft: 10,
-      minWidth: '60%'
+      marginRight: 20,
+      marginLeft: 20,
+      minWidth: '70%'
   }
 });
