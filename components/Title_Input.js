@@ -9,6 +9,7 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
     const [isPickerShow, setIsPickerShow] = useState(false);
     const [date, setDate] = useState("");
     const [changeOnDate, setChangeOnDate] = useState(false);
+    const [posNotes, setPosNotes] = useState(false);
 
     function addElement (ElementList, element) {
         let newList = Object.assign(ElementList, element)
@@ -16,10 +17,62 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
     }
     function saveInput(input){
         let answers = {...answ};
-        addElement(answers, {[id]:input})
+        if(posNotes){
+            let inp = input;
+            addElement(inp,{"notes":posNotes});
+            addElement(answers, {[id]:inp});
+        }
+        else{addElement(answers, {[id]:input})}
         setAnsw(answers);
     }
-   
+
+    useEffect(()=>{
+        if(inputType === "gps"){
+            if(answ.hasOwnProperty(id)){
+                if(answ[id].hasOwnProperty("notes")){
+                    setPosNotes(answ[id].notes);
+                }
+            }
+        }
+    },[])
+
+    useEffect(()=>{
+        if(inputType === "gps" && posNotes){
+            let answers = {...answ};
+            if(answ.hasOwnProperty(id)){
+                if(answ[id].hasOwnProperty("latitude")){
+                    addElement(answers, {
+                        [id]:{"notes":posNotes,
+                        latitude: answ[id].latitude,
+                        longitude: answ[id].longitude
+                        }}
+                        )
+                }
+                else{
+                    addElement(answers, {[id]:{"notes":posNotes}})
+                }
+            }
+            else{
+                console.log(posNotes);
+
+                addElement(answers, {[id]:{"notes":posNotes}})
+
+            }
+            setAnsw(answers);
+        }
+    },[posNotes])
+
+
+    const existGps = () => {
+        if(answ.hasOwnProperty(id)){
+            console.log(answ[id]);
+            if("latitude" in answ[id]){
+            return true;
+            }
+        }
+        return false;
+    }
+    
     const styles = StyleSheet.create({
         Item: {
             flexDirection: 'row',
@@ -150,7 +203,17 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
         if(inputType === "gps"){
             return(
                 <>
-                {answ[id]?<Text>{"la: " + (answ[id].latitude).toFixed(4)+" " + 
+                    <TextInput
+                    style={[styles.text, {color:"red"}]}
+                    returnKeyType="next"
+                    placeholder={posNotes? posNotes : "Location notes"}
+                    placeholderTextColor={(null !== "input")?"red":"gray"} 
+                    autoCapitalize="words"
+                    editable={true}
+                    onChangeText={text => setPosNotes(text)}
+                    onSubmitEditing={()=> null} //optional
+                />
+                    {existGps()?<Text>{"la: " + (answ[id].latitude).toFixed(4)+" " + 
                                           "lo: " + (answ[id].longitude).toFixed(4)}
                                     </Text>:null}
                 <ShowMap
