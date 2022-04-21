@@ -1,4 +1,4 @@
-import { Alert, Button, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Button, ScrollView, StyleSheet, Text, View } from 'react-native';
 import {db, APPENDIX} from '../firebase/Config';
 import { useEffect, useState } from 'react';
 import { Title_Input } from './Title_Input';
@@ -32,6 +32,53 @@ export default function Appendix({route, navigation}) {
           ))
         }
     }
+
+    const checkIfAnsw = () => {
+      let override = false;
+      function setOverride(){
+        let len = appenHeader.length;
+        if(titleNum < len-1){setTitleNum(titleNum+1)}
+        else{setTitleNum(0)}
+      }
+      function unsetOverride(){override = false}
+      let answ = Object.keys(answers); 
+      let needToBeAnsw = [];
+      let item;
+        for(item in data){
+          if(answ.includes(item)){
+            if(answers[item] === "unchecked"){
+              //console.log(item + " unchecked");
+              needToBeAnsw.push(data[item].sentence);
+              continue;
+            }
+            //console.log(item + " answered");
+          }
+          else{
+            //console.log(item + " not answered");
+            needToBeAnsw.push(data[item].sentence);
+          }
+        }
+        if(needToBeAnsw.length){
+          //alert(needToBeAnsw.join("\n"));
+          let message = needToBeAnsw.join(".\n");
+          Alert.alert(
+            "You did not enter values for this:",
+            message,
+          [
+            {
+              text: "Override",
+              onPress: () => setOverride()
+            },
+            {
+              text: "Repair",
+              onPress: () => unsetOverride()
+            }
+          ]
+          );
+        }
+        else{setOverride()}
+        return override;
+    }
   
   useEffect(()=>{
     if(authorizeAccess){ //store answers from db to answers useState
@@ -41,22 +88,22 @@ export default function Appendix({route, navigation}) {
     // db.ref("missions").child(missionId).child("date").child(missionDate).on('value', (snapshot)=> {console.log(snapshot.val());});
   },[])
 
-  useEffect(()=>{
-    navigation.setOptions({ title: appenHeader[titleNum]});
-  },[titleNum])
-
   useEffect(() =>{
+    navigation.setOptions({ title: appenHeader[titleNum]});
     db.ref(APPENDIX+topHeader+appenHeader[titleNum]).on('value', querySnapShot=>{
       let data = querySnapShot.val() ? querySnapShot.val(): {};
       let firebaseData = {...data};
       setData(firebaseData);
+      saveAnswers();
     });
   },[titleNum]);
 
   const titleSwitch = () =>{  // temporary title switch
-    let len = appenHeader.length;
-    if(titleNum < len-1){setTitleNum(titleNum+1)}
-    else{setTitleNum(0)}
+    if(checkIfAnsw()){
+      let len = appenHeader.length;
+      if(titleNum < len-1){setTitleNum(titleNum+1)}
+      else{setTitleNum(0)}
+    }
   }
 
   let dataKeys = Object.keys(data);
@@ -111,7 +158,6 @@ const styles = StyleSheet.create({
   buttonStyle: {
     marginTop: 10,
     marginBottom: 10,
-    marginLeft: 10,
 
   },
 });
