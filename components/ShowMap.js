@@ -3,6 +3,7 @@ import { Platform, Text, View, StyleSheet, Dimensions, Button, TextInput, Alert 
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import MapView, { Marker } from 'react-native-maps';
+import uuid from 'react-native-uuid';
 
 const INITIAL_LATITUDE = 65.05874942895484;
 const INITIAL_LONGTITUDE = 25.457204312039572;
@@ -82,7 +83,6 @@ export default function ShowMap({saveGps, loadedGps}) {
     if((latTextIn != null) && (lonTextIn != null)){
       let lat = parseFloat(latTextIn);
       let lon = parseFloat(lonTextIn);
-      console.log(lat);
       let reg = {
         latitude: lat,
         longitude: lon,
@@ -141,7 +141,6 @@ export default function ShowMap({saveGps, loadedGps}) {
 
   const coordValCheck = (value, latORlon) => {
     let val = parseFloat(value);
-    console.log(val);
     if(latORlon === "latitude"){
       if(val >= -90 && val <= 90){
         return true;
@@ -163,6 +162,7 @@ export default function ShowMap({saveGps, loadedGps}) {
     let lonval;
     return(<View>
               <TextInput
+                key={uuid.v4()}
                 style={[styles.text, {color:"black"}]}
                 returnKeyType="next"
                 placeholderTextColor={"red"}
@@ -172,6 +172,7 @@ export default function ShowMap({saveGps, loadedGps}) {
                 onSubmitEditing={text => coordValCheck(latval,"latitude")?setLatTextIn(latval):null} //optional
                 />
               <TextInput
+                key={uuid.v4()}
                 style={[styles.text, {color:"black"}]}
                 placeholder='insert longitude'
                 returnKeyType="next"
@@ -186,11 +187,11 @@ export default function ShowMap({saveGps, loadedGps}) {
   return (
     <View style={styles.container}>
       <View style={styles.statusBar}></View>
-      <Button title={"Show/hide map"} color="green" onPress={show} />
-      <Button onPress={() => (gpsLoc && sw )?goToCurrent():null} title="Go to Current pos" />
-      <Button title={"Show/hide pos input field"} color="brown" onPress={showInput} />
+      <Button key={uuid.v4()} title={"Show/hide map"} color="green" onPress={show} />
+      <Button key={uuid.v4()} onPress={() => (gpsLoc && sw )?goToCurrent():null} title="Go to Current pos" />
+      <Button key={uuid.v4()} title={"Show/hide pos input field"} color="brown" onPress={showInput} />
       {swInput?posInputField():null}
-      <Text style={styles.paragraph}>{sw?text:null}</Text>
+      <Text key={uuid.v4()} style={styles.paragraph}>{sw?text:null}</Text>
       {sw?renderMap():null}
     </View>
   );

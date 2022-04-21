@@ -2,6 +2,7 @@ import { Alert, Button, ScrollView, StyleSheet, Text, TextInput, View } from 're
 import {db, APPENDIX} from '../firebase/Config';
 import { useEffect, useState } from 'react';
 import { Title_Input } from './Title_Input';
+import uuid from 'react-native-uuid';
 
 export default function Appendix({route, navigation}) {
   const [data, setData] = useState({});
@@ -60,21 +61,23 @@ export default function Appendix({route, navigation}) {
     <View
       style={styles.container}
       contentContainerStyle={styles.contentContainerStyle}>
-      <Button title={"NextPage"} color="blue" onPress={titleSwitch} />
-      <Button title={"SaveToDB"} color="blue" onPress={saveAnswers} />  
+      <Button key={uuid.v4()} title={"NextPage"} color="blue" onPress={titleSwitch} />
+      <Button key={uuid.v4()} title={"SaveToDB"} color="blue" onPress={saveAnswers} />  
       <View style={styles.buttonStyle}>
         <ScrollView>
           {dataKeys.length > 0 ? (
             dataKeys.map(key => (
+              <View key={key}>
               <Title_Input
                 id={key}
                 answ={answers}
                 setAnsw={setAnswers}
                 sentence={data[key]}
                 />
+                </View>
             ))
           ) : (
-            <Text style={styles.infoText}>NO ITEMS (sentences)? / LOADING</Text>
+            <Text key={uuid.v4()} style={styles.infoText}>NO ITEMS (sentences)? / LOADING</Text>
           )
         }
         </ScrollView>
