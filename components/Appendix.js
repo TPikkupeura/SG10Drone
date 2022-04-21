@@ -64,7 +64,7 @@ export default function Appendix({route, navigation}) {
       <Button key={uuid.v4()} title={"NextPage"} color="blue" onPress={titleSwitch} />
       <Button key={uuid.v4()} title={"SaveToDB"} color="blue" onPress={saveAnswers} />  
       <View style={styles.buttonStyle}>
-        <ScrollView>
+        <ScrollView style={styles.scroll}>
           {dataKeys.length > 0 ? (
             dataKeys.map(key => (
               <View key={key}>
@@ -87,6 +87,9 @@ export default function Appendix({route, navigation}) {
    }
 
 const styles = StyleSheet.create({
+  scroll : {
+    height: '89%',
+  },
   container: {
     flex: 1,
     backgroundColor: 'white',

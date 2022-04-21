@@ -83,7 +83,8 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
             paddingVertical: 5,
             borderWidth: 1,
             borderRadius: 5,
-            minWidth: '60%'
+            minWidth: '60%',
+            width: '90%',
         },
         datePicker: {
             width: 320,
@@ -102,7 +103,6 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
 
       const onChange = (event, value) => {
         saveInput((parseDate(value)));
-        console.log(parseDate(value));
         setDate(value);
         if (Platform.OS === 'android') {
           setIsPickerShow(false);
@@ -163,7 +163,6 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
                     data={predefined}
                     defaultButtonText={(answ[id] === undefined)?"Select an option.":answ[id]}
                     onSelect={(selectedItem, index) => {
-                        console.log(selectedItem, index)
                         saveInput(selectedItem);
                     }}
                     buttonTextAfterSelection={(selectedItem, index) => {

@@ -187,9 +187,11 @@ export default function ShowMap({saveGps, loadedGps}) {
   return (
     <View style={styles.container}>
       <View style={styles.statusBar}></View>
-      <Button key={uuid.v4()} title={"Show/hide map"} color="green" onPress={show} />
-      <Button key={uuid.v4()} onPress={() => (gpsLoc && sw )?goToCurrent():null} title="Go to Current pos" />
-      <Button key={uuid.v4()} title={"Show/hide pos input field"} color="brown" onPress={showInput} />
+      <View style={styles.Item}>
+        <Button key={uuid.v4()} title={"MAP"} color="green" onPress={show} />
+        <Button key={uuid.v4()} onPress={() => (gpsLoc && sw )?goToCurrent():null} title="CURR POS" />
+        <Button key={uuid.v4()} title={"INPUT POS"} color="brown" onPress={showInput} />
+      </View>
       {swInput?posInputField():null}
       <Text key={uuid.v4()} style={styles.paragraph}>{sw?text:null}</Text>
       {sw?renderMap():null}
@@ -217,5 +219,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     minWidth: '60%'
+},
+Item: {
+  flexDirection: 'row',
+  alignItems: 'center'
 },
 });
