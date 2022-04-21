@@ -4,6 +4,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Checkbox } from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown'
 import ShowMap from '../components/ShowMap'
+import uuid from 'react-native-uuid';
 
 export const Title_Input = ({sentence: {sentence: title, inputType: inputType, predefined: predefined }, id, answ, setAnsw}) => {
     const [isPickerShow, setIsPickerShow] = useState(false);
@@ -53,8 +54,6 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
                 }
             }
             else{
-                console.log(posNotes);
-
                 addElement(answers, {[id]:{"notes":posNotes}})
 
             }
@@ -65,7 +64,6 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
 
     const existGps = () => {
         if(answ.hasOwnProperty(id)){
-            console.log(answ[id]);
             if("latitude" in answ[id]){
             return true;
             }
@@ -85,7 +83,8 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
             paddingVertical: 5,
             borderWidth: 1,
             borderRadius: 5,
-            minWidth: '60%'
+            minWidth: '60%',
+            width: '90%',
         },
         datePicker: {
             width: 320,
@@ -104,7 +103,6 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
 
       const onChange = (event, value) => {
         saveInput((parseDate(value)));
-        console.log(parseDate(value));
         setDate(value);
         if (Platform.OS === 'android') {
           setIsPickerShow(false);
@@ -128,6 +126,7 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
         if(inputType === "text"){
             return (
                 <TextInput
+                key={uuid.v4()}
                 style={[styles.text, {color:"red"}]}
                 returnKeyType="next"
                 placeholder={(answ[id] != undefined)? answ[id] : "Empty"}
@@ -144,6 +143,7 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
         if(inputType === "check"){
             return(
                 <Checkbox
+                key={uuid.v4()}
                 status={(answ[id] === "checked")? 'checked' : 'unchecked'}
                 color='red'
                 onPress={() => {
@@ -158,11 +158,11 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
         if(inputType === "select"){
             return(
                 <SelectDropdown
+                    key={uuid.v4()}
                     buttonStyle={{width: '100%'}}
                     data={predefined}
                     defaultButtonText={(answ[id] === undefined)?"Select an option.":answ[id]}
                     onSelect={(selectedItem, index) => {
-                        console.log(selectedItem, index)
                         saveInput(selectedItem);
                     }}
                     buttonTextAfterSelection={(selectedItem, index) => {
@@ -180,11 +180,12 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
         if(inputType === "date"){
             return(
                 <View style={styles.text}>
-                    <Text>{answ[id]}</Text>
+                    <Text key={uuid.v4()}>{answ[id]}</Text>
                   <View styled={styles.btnContainer}>
-                    <Button title={"Select Date"} color="purple" onPress={showPicker} />
+                    <Button key={uuid.v4()} title={"Select Date"} color="purple" onPress={showPicker} />
                 {isPickerShow && (
                   <DateTimePicker
+                    key={uuid.v4()}
                     value={new Date(Date.now())}
                     mode={'date'}
                     display={Platform.OS === 'ios' ? 'spinner' : 'default'}
@@ -204,6 +205,7 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
             return(
                 <>
                     <TextInput
+                    key={uuid.v4()}
                     style={[styles.text, {color:"red"}]}
                     returnKeyType="next"
                     placeholder={posNotes? posNotes : "Location notes"}
@@ -227,9 +229,10 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
 
     //console.log(id);
     return(
-        <View >
+        <View>
             <View style={styles.Item}>
                 <Text 
+                    key={uuid.v4()}
                     style={
                         [styles.text,
                         {backgroundColor: "lightblue"}]
