@@ -41,6 +41,10 @@ export default function Appendix({route, navigation}) {
     // db.ref("missions").child(missionId).child("date").child(missionDate).on('value', (snapshot)=> {console.log(snapshot.val());});
   },[])
 
+  useEffect(()=>{
+    navigation.setOptions({ title: appenHeader[titleNum]});
+  },[titleNum])
+
   useEffect(() =>{
     db.ref(APPENDIX+topHeader+appenHeader[titleNum]).on('value', querySnapShot=>{
       let data = querySnapShot.val() ? querySnapShot.val(): {};
