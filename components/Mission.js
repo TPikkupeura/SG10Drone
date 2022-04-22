@@ -3,10 +3,10 @@ import React, {useState, useEffect} from 'react';
 import {db, LOGS, DRONES} from '../firebase/Config';
 import Entypo from '@expo/vector-icons/Entypo';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import SelectDropdown from 'react-native-select-dropdown'
+import SelectDropdown from 'react-native-select-dropdown';
 import styles from '../style/Style';
 
-export default function Mission({navigation}) {
+export default function Mission({navigation}) { 
 
     const [newMission, setNewMission] = useState('');
     const [missions, setMissions] = useState({});
@@ -14,6 +14,9 @@ export default function Mission({navigation}) {
     const [isPickerShow, setIsPickerShow] = useState(false);
     const [drone, setDrone] = useState('');
     const [drones, setDrones] = useState({});
+
+    //const { loginEmail } = require('../components/Login');
+    //const userId = useState('userId');
 
     //DRONES
     const inputDrone = () => {
@@ -94,10 +97,11 @@ export default function Mission({navigation}) {
 
     function addNewMission() {
       if(newMission.trim() !== "") {
-        db.ref(LOGS).push({
+        const ref = db.ref(LOGS).push({
           date: missionDate,
           missionItem: newMission,
-          drone: drone
+          drone: drone,
+          //userId: userId
         })
         setNewMission('');
         setMissionDate('');

@@ -11,7 +11,6 @@ This means i had to use the apikey config from the DronePilot firebase. Also add
    19.4.2022 - Spent too much time on figuring out how images are supposed to work with react native, since nothing worked with having the picture in the assets folder, i ended up 
    pulling the logo picture from the firebase database. I don't know if theres a security flaw, because the picture URL has a token in it. But I couldn't figure out any other reliable
    host for the image. Will continue to work on styling. :) */ 
-
 function Login({navigation}) {
 
    const [loginEmail, setEmail] = useState("");
@@ -80,6 +79,4 @@ function Login({navigation}) {
      </View>
    );
  }
-
-
  export default Login;
