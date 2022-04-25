@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, View, Text, Pressable, TextInput, Button } from 'react-native';
+import { StyleSheet, View, Text, Alert, TextInput, Button } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Checkbox } from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown'
@@ -102,11 +102,20 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
       };
 
       const onChange = (event, value) => {
-        saveInput((parseDate(value)));
-        setDate(value);
-        if (Platform.OS === 'android') {
-          setIsPickerShow(false);
+        if (value < (new Date(Date.now()))) {
+            Alert.alert(
+                "Date",
+                "You selected past date, please correct the date",
+              [
+                {
+                  text: "Ok",
+                  onPress: () => setIsPickerShow(true)
+                }
+              ]
+              );
         }
+        showPicker();
+        saveInput((parseDate(value)));
       };
 
     function parseDate(date){
@@ -183,7 +192,7 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
                     <Text key={uuid.v4()}>{answ[id]}</Text>
                   <View styled={styles.btnContainer}>
                     <Button key={uuid.v4()} title={"Select Date"} color="purple" onPress={showPicker} />
-                {isPickerShow && (
+                {isPickerShow?(
                   <DateTimePicker
                     key={uuid.v4()}
                     value={new Date(Date.now())}
@@ -193,7 +202,7 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
                     onChange={onChange}
                     style={styles.datePicker}
                   />
-                )}
+                ):null}
                  </View>
               </View>
             )
