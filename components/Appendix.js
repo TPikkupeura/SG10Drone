@@ -66,11 +66,11 @@ export default function Appendix({route, navigation}) {
             message,
           [
             {
-              text: "Override",
+              text: "Continue",
               onPress: () => setOverride()
             },
             {
-              text: "Repair",
+              text: "Add answers",
               onPress: () => unsetOverride()
             }
           ]

@@ -11,6 +11,9 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
     const [date, setDate] = useState("");
     const [changeOnDate, setChangeOnDate] = useState(false);
     const [posNotes, setPosNotes] = useState(false);
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
+
 
     function addElement (ElementList, element) {
         let newList = Object.assign(ElementList, element)
@@ -101,6 +104,23 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
         setIsPickerShow(!isPickerShow);
       };
 
+    const showDatepicker = () => {
+        showMode('date');
+      };
+    
+    const showTimepicker = () => {
+        showMode('time');
+      };
+      const showMode = currentMode => {
+        setShow(true);
+        setMode(currentMode);
+      };
+
+    const formatDate = (date, time) => {
+        return `${date.getDate()}-${date.getMonth() +
+          1}-${date.getFullYear()} ${time.getHours()<10? "0"+time.getHours(): time.getHours()}:${time.getMinutes()<10? "0"+time.getMinutes(): time.getMinutes()}`;
+      };
+    
       const onChange = (event, value) => {
         if (value < (new Date(Date.now()))) {
             Alert.alert(
@@ -109,13 +129,43 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
               [
                 {
                   text: "Ok",
-                  onPress: () => setIsPickerShow(true)
+                  onPress: () => setShow(true)
                 }
               ]
               );
         }
         showPicker();
         saveInput((parseDate(value)));
+      };
+
+      const onChange2 = (event, selectedValue) => {
+        setShow(Platform.OS === 'ios');
+        const selectedTime = selectedValue || new Date();
+        if (mode == 'date') {
+          const currentDate = selectedValue || new Date();
+          if (selectedValue < (new Date(Date.now()))) {
+            Alert.alert(
+                "Date",
+                "You selected past date, please try again.",
+              [
+                {
+                  text: "Ok",
+                  onPress: () => null
+                }
+              ]
+              );
+            return;
+        }
+          setDate(currentDate);
+          setMode('time');
+          setShow(Platform.OS !== 'ios'); // to show the picker again in time mode
+        } else {
+          console.log(selectedTime);
+          setShow(Platform.OS === 'ios');
+          setMode('date');
+        }
+        selectedTime.setHours(selectedTime.getHours() - 2);
+        saveInput(formatDate(date, selectedTime));
       };
 
     function parseDate(date){
@@ -209,6 +259,34 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
             }
     }
 
+    const inputDateTime = () => {
+        if(inputType === "datetime"){
+            return(
+                <View style={styles.text}>
+                    <Text key={uuid.v4()}>{answ[id]}</Text>
+                    <View styled={styles.btnContainer}>
+                        <Button key={uuid.v4()} title={"Select Date Time"} color="purple" onPress={showDatepicker} title="SELECT DATE AND TIME" />   
+                    <View>
+                </View>
+
+                {show?(
+                  <DateTimePicker
+                    key={uuid.v4()}
+                    timeZoneOffsetInMinutes={0}
+                    value={new Date(Date.now())}
+                    mode={mode}
+                    is24Hour={true}
+                    display="default"
+                    onChange={onChange2}
+                    style={styles.datePicker}
+                  />
+                ):null}
+                 </View>
+              </View>
+            )
+            }
+    }
+
     const inputMap = () => {
         if(inputType === "gps"){
             return(
@@ -252,6 +330,7 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
             </View>
             {inputText()}
             {inputDate()}
+            {inputDateTime()}
             {inputSelect()}
             {inputMap()}
         </View>
