@@ -1,5 +1,5 @@
 import { Alert, Button, ScrollView, StyleSheet, Text, View } from 'react-native';
-import {db, APPENDIX} from '../firebase/Config';
+import {db, APPENDIX, LOGS} from '../firebase/Config';
 import { useEffect, useState } from 'react';
 import { Title_Input } from './Title_Input';
 import uuid from 'react-native-uuid';
@@ -8,25 +8,25 @@ export default function Appendix({route, navigation}) {
   const [data, setData] = useState({});
   const { title, topHeader, appenHeader } = route.params;
   const [titleNum, setTitleNum] = useState(title); // copy constant title to titleNum
-  const [userId, setUserId] = useState("userId"); //here needs to be user key for now is constant
-  const [missionId, setMissionId] = useState("-N-XcaK33eNw6hOqb10k") // static mission 7 for now
+  const [userId, setUserId] = useState("test1"); //here needs to be user key for now is constant
+  const [missionId, setMissionId] = useState("-N0_sK8Mvd-yuAtm1JxL") // static mission 7 for now
   const [missionDate, setMissionDate] = useState("12-12-2022") //for now
   const [answers, setAnswers] = useState({})
 
   function authorizeAccess(){
     let dbUserId;
-    db.ref("missions").child(missionId).child("userId").on('value', (snapshot)=> {dbUserId = snapshot.val();});
+    db.ref(LOGS).child(missionId).child("userId").on('value', (snapshot)=> {dbUserId = snapshot.val();});
     if(dbUserId === userId){return true}
     else{return false};
   }
 
   function saveAnswers(){
     let dbUserId;
-    db.ref("missions").child(missionId).child("userId").on('value', (snapshot)=> {dbUserId = snapshot.val();});
+    db.ref(LOGS).child(missionId).child("userId").on('value', (snapshot)=> {dbUserId = snapshot.val();});
     if(authorizeAccess()){
     let answ = Object.keys(answers);  
       answ.map(key => (
-          db.ref("missions").child(missionId).child("date").child(missionDate).child(key).set(
+          db.ref(LOGS).child(missionId).child("answers").child(key).set(
             answers[key]
           )
           ))
@@ -66,11 +66,11 @@ export default function Appendix({route, navigation}) {
             message,
           [
             {
-              text: "Override",
+              text: "Continue",
               onPress: () => setOverride()
             },
             {
-              text: "Repair",
+              text: "Add answers",
               onPress: () => unsetOverride()
             }
           ]
@@ -82,10 +82,10 @@ export default function Appendix({route, navigation}) {
   
   useEffect(()=>{
     if(authorizeAccess){ //store answers from db to answers useState
-      db.ref("missions").child(missionId).child("date").child(missionDate).on('value', (snapshot)=> {setAnswers(snapshot.val());});
+      db.ref(LOGS).child(missionId).child("answers").on('value', (snapshot)=> {setAnswers(snapshot.val());});
     }
     //console.log(answers); //loaded answers from db
-    // db.ref("missions").child(missionId).child("date").child(missionDate).on('value', (snapshot)=> {console.log(snapshot.val());});
+    // db.ref(LOGS).child(missionId).child("date").child(missionDate).on('value', (snapshot)=> {console.log(snapshot.val());});
   },[])
 
   useEffect(() =>{

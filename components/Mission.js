@@ -14,7 +14,6 @@ export default function Mission({navigation}) {
     const [isPickerShow, setIsPickerShow] = useState(false);
     const [drone, setDrone] = useState('');
     const [drones, setDrones] = useState({});
-    const [dates, setDates] = useState({});
     const [userId, setUserId] = useState("test1"); // TEMPORARY
 
     //const { loginEmail } = require('../components/Login');
@@ -94,32 +93,24 @@ export default function Mission({navigation}) {
         let droneItems = {...data};
         setDrones(droneItems);
       });
-      db.ref(LOGS).on('value', querySnapShot => {
-        let data = querySnapShot.val() ? querySnapShot.val() : {};
-        let dateItems = {...data};
-        setDates(dateItems);
-      });
     }, []);
 
     function addNewMission() {
       if(newMission.trim() !== "") {
-        const ref = db.ref(LOGS).push({
-          //date: missionDate,
+        db.ref(LOGS).push({
+          date: missionDate,
           missionItem: newMission,
           drone: drone,
-          userId: userId
+          userId: userId,
+          answers: ""
         })
-        const missionKey = ref.key;
-        db.ref(LOGS).child(missionKey).child("date").child(missionDate).set(
-          {answer: ""}
-        )
         setNewMission('');
         setMissionDate('');
         setDrone('');
       }
     }
 
-    const MissionItem = ({missionItem: {missionItem: title, date: datekey, drone}, id}) => {
+    const MissionItem = ({missionItem: {missionItem: title, date, drone}, id}) => {
       
        const onRemove = () => {
           db.ref(LOGS + [id]).remove();
@@ -137,12 +128,13 @@ export default function Mission({navigation}) {
         { cancelable: false}
       );
       
+      console.log(id);
       return (
           <View style={styles.missionItem}>
-              <Pressable onPress={() => navigation.navigate("FrontPage")}>
+              <Pressable onPress={() => navigation.navigate("FrontPage", {missionId: id})}>
                 <View style={styles.missionText}>
                   <Text>{title}</Text>
-                  {/* <Text>{datekey}</Text> */}
+                  <Text>{date}</Text>
                   <Text>Drone: {drone}</Text>
                 </View>
               </Pressable>
@@ -155,8 +147,6 @@ export default function Mission({navigation}) {
 
   let missionKeys = Object.keys(missions);
   let droneKeys = Object.keys(drones);
-  let dateKeys = Object.keys(dates);
-
 
   return (
     <View 
