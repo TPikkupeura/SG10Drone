@@ -13,8 +13,8 @@ This means i had to use the apikey config from the DronePilot firebase. Also add
    host for the image. Will continue to work on styling. :) */ 
 function Login({navigation}) {
 
-   const [loginEmail, setEmail] = useState("");
-   const [loginPassword, setPassword] = useState("");
+  const [loginEmail, setEmail] = useState("");
+  const [loginPassword, setPassword] = useState("");
 
   const [user, setUser] = useState({});
 
@@ -79,4 +79,4 @@ function Login({navigation}) {
      </View>
    );
  }
- export default Login;
+export default Login;

@@ -14,9 +14,9 @@ export default function Mission({navigation}) {
     const [isPickerShow, setIsPickerShow] = useState(false);
     const [drone, setDrone] = useState('');
     const [drones, setDrones] = useState({});
+    const [userId, setUserId] = useState("userId"); // TEMPORARY
 
     //const { loginEmail } = require('../components/Login');
-    //const userId = useState('userId');
 
     //DRONES
     const inputDrone = () => {
@@ -101,7 +101,7 @@ export default function Mission({navigation}) {
           date: missionDate,
           missionItem: newMission,
           drone: drone,
-          //userId: userId
+          userId: userId
         })
         setNewMission('');
         setMissionDate('');
@@ -110,8 +110,8 @@ export default function Mission({navigation}) {
     }
 
     const MissionItem = ({missionItem: {missionItem: title, date, drone}, id}) => {
-
-      const onRemove = () => {
+      
+       const onRemove = () => {
           db.ref(LOGS + [id]).remove();
       };
 
