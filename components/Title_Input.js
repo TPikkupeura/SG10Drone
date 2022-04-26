@@ -265,7 +265,7 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
                 <View style={styles.text}>
                     <Text key={uuid.v4()}>{answ[id]}</Text>
                     <View styled={styles.btnContainer}>
-                        <Button key={uuid.v4()} title={"Select Date Time"} color="purple" onPress={showDatepicker} title="SELECT DATE AND TIME" />   
+                        <Button key={uuid.v4()} color="purple" onPress={showDatepicker} title="SELECT DATE AND TIME" />   
                     <View>
                 </View>
 
