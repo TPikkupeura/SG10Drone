@@ -28,7 +28,7 @@ export default function FrontPage({route, navigation}) {
        </TouchableOpacity>
 
         <TouchableOpacity style={styles.Btn}
-       onPress={()=> navigation.navigate('Appendix',{topHeader:"appen2/", title:0, appenHeader:appen2})}>    
+       onPress={()=> navigation.navigate('Appendix',{topHeader:"appen2/", title:0, appenHeader:appen2, misId:missionId})}>    
          <Text style={styles.loginText}>Flight</Text>
        </TouchableOpacity>
       
