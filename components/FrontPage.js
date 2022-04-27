@@ -5,7 +5,7 @@ const Separator = () => (
   <View style={styles.separator} />
 );
 
-export default function FrontPage({navigation}) {
+export default function FrontPage({route, navigation}) {
   const appen1 = ["InitPlanCheck",
                   "Flight type check",
                   "Airspace restriction checks",
@@ -17,14 +17,13 @@ export default function FrontPage({navigation}) {
                   "PreFlightChecklist",
                   "PreFlightPreparationOnSite",
                   "WhileOnFlight"]
-  
-
+  const {missionId} = route.params;
   return (
     <View style={styles.buttonStyle}>
     
       
         <TouchableOpacity style={styles.Btn}
-       onPress={()=> navigation.navigate('Appendix',{topHeader:"appen1/", title:0, appenHeader:appen1})}>  
+       onPress={()=> navigation.navigate('Appendix',{topHeader:"appen1/", title:0, appenHeader:appen1, misId:missionId})}>  
          <Text style={styles.loginText}>Planning</Text>
        </TouchableOpacity>
 

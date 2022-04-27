@@ -137,7 +137,6 @@ export default function Mission({navigation}) {
         { cancelable: false}
       );
       
-      console.log(id);
 
       return (
           <View style={styles.missionItem}>
