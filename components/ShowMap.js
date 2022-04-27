@@ -190,7 +190,6 @@ export default function ShowMap({saveGps, loadedGps}) {
       <View style={styles.Item}>
         <Button key={uuid.v4()} title={"MAP"} color="green" onPress={show} />
         <Button key={uuid.v4()} onPress={() => (gpsLoc && sw )?goToCurrent():null} title="CURR POS" />
-        <Button key={uuid.v4()} title={"INPUT POS"} color="brown" onPress={showInput} />
       </View>
       {swInput?posInputField():null}
       <Text key={uuid.v4()} style={styles.paragraph}>{sw?text:null}</Text>

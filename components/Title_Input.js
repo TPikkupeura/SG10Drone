@@ -133,6 +133,7 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
                 }
               ]
               );
+            return;
         }
         showPicker();
         saveInput((parseDate(value)));
@@ -291,6 +292,7 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
         if(inputType === "gps"){
             return(
                 <>
+                    <Text>Position notes:</Text>
                     <TextInput
                     key={uuid.v4()}
                     style={[styles.text, {color:"red"}]}

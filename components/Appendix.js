@@ -9,7 +9,7 @@ export default function Appendix({route, navigation}) {
   const { title, topHeader, appenHeader } = route.params;
   const [titleNum, setTitleNum] = useState(title); // copy constant title to titleNum
   const [userId, setUserId] = useState("test1"); //here needs to be user key for now is constant
-  const [missionId, setMissionId] = useState("-N0_sK8Mvd-yuAtm1JxL") // static mission 7 for now
+  const [missionId, setMissionId] = useState("-N0a45ozfJLP72c1Ptyc") // static mission 7 for now
   const [missionDate, setMissionDate] = useState("12-12-2022") //for now
   const [answers, setAnswers] = useState({})
 
