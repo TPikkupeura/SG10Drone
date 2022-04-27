@@ -1,4 +1,4 @@
-import { Text, View, Button, TextInput, Alert, ScrollView, Pressable } from 'react-native';
+import { Text, View, Button, TextInput, Alert, ScrollView, Pressable, TouchableOpacity } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {db, LOGS, DRONES} from '../firebase/Config';
 import Entypo from '@expo/vector-icons/Entypo';
@@ -22,9 +22,16 @@ export default function Mission({navigation}) {
     const inputDrone = () => {
           return(
               <SelectDropdown
-                  buttonStyle={{width: '100%'}}
+                  buttonStyle={{width: '90%',
+                  borderRadius: 10,
+                  height: 40,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginTop: 5,
+                  backgroundColor: "#71A1E3"
+              }}
                   data={droneKeys}
-                  //defaultButtonText={(answ[id] === undefined)?"Select an option.":answ[id]}
+                  defaultButtonText= "SELECT A DRONE"
                   onSelect={(selectedItem, index) => {
                       setDrone(selectedItem);
                   }}
@@ -60,12 +67,15 @@ export default function Mission({navigation}) {
             }
         }
 
-
+    //TEH DRONE PICKER
       const inputMissionDate = () => {
               return(
-                <View styles={styles.text}>
-                  <View styles={styles.btnContainer}>
-                    <Button title={"Select Date"} color="purple" onPress={showPicker} />
+                  <View style={styles.MissionBtn}>
+                  <TouchableOpacity style={styles.MissionBtn}
+                  onPress={showPicker}>
+                  <Text style={styles.loginText}>SELECT MISSION DATE</Text>
+                  </TouchableOpacity>
+
                 {isPickerShow && (
                   <DateTimePicker
                     value={new Date(Date.now())}
@@ -77,10 +87,9 @@ export default function Mission({navigation}) {
                   />
                 )}
                  </View>
-              </View>
             )
             }
-    //
+
 
     useEffect(() => {
       db.ref(LOGS).on('value', querySnapShot => {
@@ -129,6 +138,7 @@ export default function Mission({navigation}) {
       );
       
       console.log(id);
+
       return (
           <View style={styles.missionItem}>
               <Pressable onPress={() => navigation.navigate("FrontPage", {missionId: id})}>
@@ -147,26 +157,28 @@ export default function Mission({navigation}) {
 
   let missionKeys = Object.keys(missions);
   let droneKeys = Object.keys(drones);
-
+  
+      //THREE BUTTONS
   return (
-    <View 
-      style={styles.missionContainer}
-      contentContainerStyle={styles.contentContainerStyle}>
+    <View>
       <View style={styles.newItem}>
         <TextInput
           style={styles.input}
           onChangeText={setNewMission}
           value={newMission}
-          placeholder="Create Title"
+          placeholder="New Mission Title"
         />
         {inputDrone()}
         <Text>{missionDate}</Text>
         {inputMissionDate()}
-      <View style={styles.buttonStyle}>
-        <Button
-        title="Create Mission"
-        onPress={()=> addNewMission()}
-        />
+      <View style={styles.MissionBtn}>
+
+        <TouchableOpacity style={styles.MissionBtn}
+        onPress={()=> addNewMission()}>
+        <Text style={styles.loginText}>CREATE NEW MISSION</Text>
+        </TouchableOpacity>
+
+
       </View>
       <ScrollView>
         {missionKeys.length > 0 ? (

@@ -14,7 +14,7 @@ export default StyleSheet.create({
  
   inputView: {
     textAlign: 'center',
-    backgroundColor: "#CCC",
+    backgroundColor: "#71A1E3",
     borderRadius: 10,
     width: "70%",
     height: 55,
@@ -39,10 +39,40 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 40,
-    backgroundColor: "#CCC",
+    backgroundColor: "#71A1E3",
   },
+
+  btnContainer: {
+    width: "200%",
+    alignContent: "center",
+    alignItems: "center",
+  },
+
+  Btn: {
+    width: '100%',
+    borderRadius: 10,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 40,
+    backgroundColor: "#71A1E3"
+
+  },
+
+  MissionBtn: {
+    width: '90%',
+    marginTop: 10,
+    marginBottom: 10,
+    borderRadius: 10,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#71A1E3",
+  },
+
   missionContainer: {
     flex: 1,
+    alignItems: "center",
     backgroundColor: 'white',
     height: '20%',
   },
@@ -55,6 +85,8 @@ export default StyleSheet.create({
   newItem: {
     marginVertical: 10,
     alignItems: 'center',
+  
+    justifyContent: 'center',
   },
   infoText: {
     marginVertical: 10,
