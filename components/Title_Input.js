@@ -5,6 +5,7 @@ import { Checkbox } from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown'
 import ShowMap from '../components/ShowMap'
 import uuid from 'react-native-uuid';
+import { object } from 'prop-types';
 
 export const Title_Input = ({sentence: {sentence: title, inputType: inputType, predefined: predefined }, id, answ, setAnsw}) => {
     const [isPickerShow, setIsPickerShow] = useState(false);
@@ -98,7 +99,6 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
           },
         });
 
-    //console.log(predefined);
 
     const showPicker = () => {
         setIsPickerShow(!isPickerShow);
@@ -122,7 +122,13 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
       };
     
       const onChange = (event, value) => {
-        if (value < (new Date(Date.now()))) {
+        let today = new Date(Date.now());
+        if(value.getDate() === today.getDate() && value.getMonth() === today.getMonth() && value.getFullYear() === today.getFullYear()){
+            showPicker();
+            saveInput((parseDate(value)));
+            return;
+        }
+        if ((value) < (today)) {
             Alert.alert(
                 "Date",
                 "You selected past date, please correct the date",
