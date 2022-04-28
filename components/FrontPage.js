@@ -3,10 +3,6 @@ import {db, APPENDIX} from '../firebase/Config';
 import React, {useState} from 'react'
 import { useEffect } from 'react';
 
-const Separator = () => (
-  <View style={styles.separator} />
-);
-
 export default function FrontPage({route, navigation}) {
   const [emPath, setEmPath] = useState(APPENDIX+"caseOfEm"+"/EmergencyChecklistsValidForAllOperations"+"/-N-CUwZFC-30m9uMBnvA");
   const appen1 = ["InitPlanCheck",

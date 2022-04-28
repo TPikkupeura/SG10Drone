@@ -3,6 +3,7 @@ import {db, APPENDIX, LOGS} from '../firebase/Config';
 import { useEffect, useState } from 'react';
 import { Title_Input } from './Title_Input';
 import uuid from 'react-native-uuid';
+import { IconButton, Colors } from 'react-native-paper';
 
 export default function Appendix({route, navigation}) {
   const [data, setData] = useState({});
@@ -12,6 +13,7 @@ export default function Appendix({route, navigation}) {
   const [missionId, setMissionId] = useState(misId) // static mission 7 for now
   const [missionDate, setMissionDate] = useState("12-12-2022") //for now
   const [answers, setAnswers] = useState({})
+  const [titleState, setTitileState] = useState(null);
 
   function authorizeAccess(){
     let dbUserId;
@@ -87,8 +89,15 @@ export default function Appendix({route, navigation}) {
     // db.ref(LOGS).child(missionId).child("date").child(missionDate).on('value', (snapshot)=> {console.log(snapshot.val());});
   },[])
 
+  
+
   useEffect(() =>{
-    navigation.setOptions({ title: appenHeader[titleNum]});
+    setTitileState(appenHeader[titleNum]);
+/*     navigation.setOptions({
+        title: appenHeader[titleNum],
+        headerStyle: {
+        }
+      }); */
     db.ref(APPENDIX+topHeader+appenHeader[titleNum]).on('value', querySnapShot=>{
       let data = querySnapShot.val() ? querySnapShot.val(): {};
       let firebaseData = {...data};
@@ -111,13 +120,35 @@ export default function Appendix({route, navigation}) {
     <View
       style={styles.container}
       contentContainerStyle={styles.contentContainerStyle}>
-      <Button key={uuid.v4()} title={"NextPage"} color="blue" onPress={titleSwitch} />
-      <Button key={uuid.v4()} title={"SaveToDB"} color="blue" onPress={saveAnswers} />  
+      <View style={styles.Item}>
+        <IconButton
+    icon="content-save"
+    color={Colors.black900}
+    size={40}
+    onPress={saveAnswers}
+  />
+        <IconButton
+    style={[{ marginLeft: "25%"}]}
+    icon="home"
+    color={Colors.black900}
+    size={40}
+    onPress={()=> {navigation.navigate('Mission')}}
+  />
+        <IconButton
+    style={[{position: 'absolute', right: 0, marginTop: "4%",}]}
+    icon="arrow-right"
+    color={Colors.black900}
+    size={40}
+    onPress={titleSwitch}
+  />
+        
+      </View>
+      <Text style={[{fontSize: 30, textAlign: "center", fontWeight: "bold"}]}>{titleState}</Text>
       <View style={styles.buttonStyle}>
         <ScrollView style={styles.scroll}>
           {dataKeys.length > 0 ? (
             dataKeys.map(key => (
-              <View key={key}>
+              <View style={[{paddingHorizontal: "2%"}]} key={key}>
               <Title_Input
                 id={key}
                 answ={answers}
@@ -138,7 +169,7 @@ export default function Appendix({route, navigation}) {
 
 const styles = StyleSheet.create({
   scroll : {
-    height: '89%',
+    height: '79%',
   },
   container: {
     flex: 1,
@@ -159,4 +190,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
 
   },
+  Item: {
+    backgroundColor: "#71a1e3",
+    flexDirection: 'row',
+    paddingTop: "4%",
+    paddingBottom: "1%",
+},
 });

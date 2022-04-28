@@ -5,7 +5,7 @@ import { Checkbox } from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown'
 import ShowMap from '../components/ShowMap'
 import uuid from 'react-native-uuid';
-import { object } from 'prop-types';
+import { IconButton, Colors } from 'react-native-paper';
 
 export const Title_Input = ({sentence: {sentence: title, inputType: inputType, predefined: predefined }, id, answ, setAnsw}) => {
     const [isPickerShow, setIsPickerShow] = useState(false);
@@ -14,7 +14,11 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
     const [posNotes, setPosNotes] = useState(false);
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
+    const [showMap, setShowMap] = useState(false);
 
+    const switchOnMap = () => {
+        setShowMap(!showMap);
+    }
 
     function addElement (ElementList, element) {
         let newList = Object.assign(ElementList, element)
@@ -78,15 +82,15 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
     const styles = StyleSheet.create({
         Item: {
             flexDirection: 'row',
-            marginVertical: 10,
+            marginVertical: 5,
             alignItems: 'center'
         },
         text: {
             borderColor: '#afafaf',
-            paddingHorizontal: 8,
-            paddingVertical: 5,
+            paddingHorizontal: "1%",
+            paddingVertical: "1%",
             borderWidth: 1,
-            borderRadius: 5,
+            borderRadius: 10,
             minWidth: '60%',
             width: '90%',
         },
@@ -193,10 +197,10 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
             return (
                 <TextInput
                 key={uuid.v4()}
-                style={[styles.text, {color:"red"}]}
+                style={[styles.text, {color:"black"}]}
                 returnKeyType="next"
                 placeholder={(answ[id] != undefined)? answ[id] : "Empty"}
-                placeholderTextColor={(null !== "input")?"red":"gray"} 
+                placeholderTextColor={(null !== "input")?"black":"gray"} 
                 autoCapitalize="words"
                 editable={true}
                 onChangeText={text => saveInput(text)}
@@ -245,10 +249,14 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
     const inputDate = () => {
         if(inputType === "date"){
             return(
-                <View style={styles.text}>
+                <View  style={
+                    [styles.Item,{marginVertical: "-1%"}]
+                }>
+                <View style={[styles.text,{paddingVertical: "2%"}]}>
+                <View >
                     <Text key={uuid.v4()}>{answ[id]}</Text>
-                  <View styled={styles.btnContainer}>
-                    <Button key={uuid.v4()} title={"Select Date"} color="purple" onPress={showPicker} />
+                  <View>
+            
                 {isPickerShow?(
                   <DateTimePicker
                     key={uuid.v4()}
@@ -262,6 +270,15 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
                 ):null}
                  </View>
               </View>
+              </View>
+              <IconButton
+              style={[{marginHorizontal: "0%"}]}
+              icon="calendar"
+              color={Colors.black900}
+              size={30}
+              onPress={showPicker}
+            />
+            </View>
             )
             }
     }
@@ -269,12 +286,14 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
     const inputDateTime = () => {
         if(inputType === "datetime"){
             return(
-                <View style={styles.text}>
+                <View  style={
+                    [styles.Item,{marginVertical: "-1%"}]
+                }>
+                <View style={[styles.text,{paddingVertical: "2%"}]}>
+                <View >
                     <Text key={uuid.v4()}>{answ[id]}</Text>
-                    <View styled={styles.btnContainer}>
-                        <Button key={uuid.v4()} color="purple" onPress={showDatepicker} title="SELECT DATE AND TIME" />   
-                    <View>
-                </View>
+                  <View>
+   
 
                 {show?(
                   <DateTimePicker
@@ -290,6 +309,15 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
                 ):null}
                  </View>
               </View>
+              </View>
+              <IconButton
+              style={[{marginHorizontal: "0%"}]}
+              icon="calendar"
+              color={Colors.black900}
+              size={30}
+              onPress={showDatepicker}
+            />
+            </View>
             )
             }
     }
@@ -299,24 +327,35 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
             return(
                 <>
                     <Text>Position notes:</Text>
-                    <TextInput
-                    key={uuid.v4()}
-                    style={[styles.text, {color:"red"}]}
-                    returnKeyType="next"
-                    placeholder={posNotes? posNotes : "Location notes"}
-                    placeholderTextColor={(null !== "input")?"red":"gray"} 
-                    autoCapitalize="words"
-                    editable={true}
-                    onChangeText={text => setPosNotes(text)}
-                    onSubmitEditing={()=> null} //optional
-                />
+                    <View style={[styles.Item ,{flexDirection: 'row', marginVertical: "-1%"}]}>
+                        <TextInput
+                        key={uuid.v4()}
+                        style={[styles.text, {color:"black"}]}
+                        returnKeyType="next"
+                        placeholder={posNotes? posNotes : "Location notes"}
+                        placeholderTextColor={(null !== "input")?"black":"gray"} 
+                        autoCapitalize="words"
+                        editable={true}
+                        onChangeText={text => setPosNotes(text)}
+                        onSubmitEditing={()=> null} //optional
+                    />
+                              <IconButton
+              style={[{marginHorizontal: "0%"}]}
+              icon="map-marker"
+              color={Colors.black900}
+              size={30}
+              onPress={switchOnMap}
+            />
+                </View>
                     {existGps()?<Text>{"la: " + (answ[id].latitude).toFixed(4)+" " + 
                                           "lo: " + (answ[id].longitude).toFixed(4)}
                                     </Text>:null}
+                {showMap?
                 <ShowMap
                     saveGps={saveInput}
                     loadedGps={(answ[id] != undefined)? answ[id] : {}}
-                />
+                />:null}
+        
                 </>
             )
         }
@@ -330,9 +369,9 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
                     key={uuid.v4()}
                     style={
                         [styles.text,
-                        {backgroundColor: "lightblue"}]
+                        {fontWeight: "bold", marginVertical: "-2%",fontSize: 20, borderColor: "white"}]
                     }>
-                    {title}
+                    {title+":"}
                 </Text>
                 {inputCheck()}
             </View>
