@@ -167,7 +167,7 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
           setMode('time');
           setShow(Platform.OS !== 'ios'); // to show the picker again in time mode
         } else {
-          console.log(selectedTime);
+          //console.log(selectedTime);
           setShow(Platform.OS === 'ios');
           setMode('date');
         }

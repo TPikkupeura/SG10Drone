@@ -7,6 +7,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Appendix from './components/Appendix';
 import Mission from './components/Mission';
+import CaseOfEm from './components/CaseOfEm'
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,7 @@ export default function App(){
                 <Stack.Screen name="Mission" component={Mission} options={{headerShow: false}}/>
                 <Stack.Screen name="FrontPage" component={FrontPage} options={{headerShow: false}}/>
                 <Stack.Screen name="Appendix" component={Appendix} options={{headerShow: false}}/>
+                <Stack.Screen name="CaseOfEm" component={CaseOfEm} options={{headerShow: false}}/>
             </Stack.Navigator>
         </NavigationContainer>
     )

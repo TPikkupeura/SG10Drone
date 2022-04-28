@@ -1,11 +1,14 @@
 import { StyleSheet, Text, View, Pressable, TouchableOpacity } from 'react-native'
-import React from 'react'
+import {db, APPENDIX} from '../firebase/Config';
+import React, {useState} from 'react'
+import { useEffect } from 'react';
 
 const Separator = () => (
   <View style={styles.separator} />
 );
 
 export default function FrontPage({route, navigation}) {
+  const [emPath, setEmPath] = useState(APPENDIX+"caseOfEm"+"/EmergencyChecklistsValidForAllOperations"+"/-N-CUwZFC-30m9uMBnvA");
   const appen1 = ["InitPlanCheck",
                   "Flight type check",
                   "Airspace restriction checks",
@@ -18,6 +21,14 @@ export default function FrontPage({route, navigation}) {
                   "PreFlightPreparationOnSite",
                   "WhileOnFlight"]
   const {missionId} = route.params;
+  const [emObj, setEmObj] = useState();
+
+  useEffect(()=>{
+    db.ref(emPath).on('value', (snapshot)=> {setEmObj(snapshot.val())});
+  },[])
+
+  
+
   return (
     <View style={styles.buttonStyle}>
     
@@ -34,7 +45,7 @@ export default function FrontPage({route, navigation}) {
       
 
         <TouchableOpacity style={styles.Btn}
-       onPress={()=> navigation.navigate('Appendix',{topHeader:"caseOfEm/", title:0})}> 
+       onPress={()=> navigation.navigate('CaseOfEm',{emObject:emObj})}> 
          <Text style={styles.loginText}>Case of Emergency</Text>
        </TouchableOpacity>
       
