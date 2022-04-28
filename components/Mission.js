@@ -4,6 +4,7 @@ import {db, LOGS, DRONES} from '../firebase/Config';
 import Entypo from '@expo/vector-icons/Entypo';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import SelectDropdown from 'react-native-select-dropdown';
+import uuid from 'react-native-uuid';
 import styles from '../style/Style';
 
 export default function Mission({navigation}) { 
@@ -159,7 +160,6 @@ export default function Mission({navigation}) {
   
       //THREE BUTTONS
   return (
-    <View>
       <View style={styles.newItem}>
         <TextInput
           style={styles.input}
@@ -193,6 +193,6 @@ export default function Mission({navigation}) {
         )}
       </ScrollView>
       </View>
-    </View>
+
   )
 }

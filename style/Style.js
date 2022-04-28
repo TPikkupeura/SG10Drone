@@ -85,7 +85,7 @@ export default StyleSheet.create({
   newItem: {
     marginVertical: 10,
     alignItems: 'center',
-  
+    flex: 1,
     justifyContent: 'center',
   },
   infoText: {
