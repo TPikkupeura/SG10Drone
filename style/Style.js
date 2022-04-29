@@ -121,5 +121,11 @@ export default StyleSheet.create({
       marginRight: 20,
       marginLeft: 20,
       minWidth: '70%'
+  },
+  EmHeader: {
+    backgroundColor: "#71a1e3",
+    flexDirection: 'row',
+    paddingTop: "4%",
+    paddingBottom: "1%",
   }
 });

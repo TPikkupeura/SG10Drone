@@ -137,9 +137,9 @@ export default function Appendix({route, navigation}) {
       <IconButton
         style={[{ marginLeft: "12%"}]}
         icon="alert"
-        color={Colors.black900}
+        color={Colors.red500}
         size={40}
-        onPress={()=> {navigation.navigate('Mission')}}
+        onPress={()=> {navigation.navigate('EmTitles')}}
   />
         <IconButton
     style={[{position: 'absolute', right: 0, marginTop: "4%",}]}
