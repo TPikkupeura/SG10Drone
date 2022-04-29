@@ -21,7 +21,7 @@ export default function ShowMap({saveGps, loadedGps}) {
   const [gpsLoc, setGpsLoc] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [text, setText] = useState("Waiting for signal..");
-  const [sw, setSw] = useState(false);
+  const [sw, setSw] = useState(true);
   const [swInput, setSwInput] = useState(false);
   const [current, setCurrent] = useState(false);
   const mapRef = useRef(null);
@@ -188,8 +188,7 @@ export default function ShowMap({saveGps, loadedGps}) {
     <View style={styles.container}>
       <View style={styles.statusBar}></View>
       <View style={styles.Item}>
-        <Button key={uuid.v4()} title={"MAP"} color="green" onPress={show} />
-        <Button key={uuid.v4()} onPress={() => (gpsLoc && sw )?goToCurrent():null} title="CURR POS" />
+        <Button key={uuid.v4()} onPress={() => (gpsLoc && sw )?goToCurrent():null} title="Go to actual gps position." />
       </View>
       {swInput?posInputField():null}
       <Text key={uuid.v4()} style={styles.paragraph}>{sw?text:null}</Text>
@@ -200,8 +199,11 @@ export default function ShowMap({saveGps, loadedGps}) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    marginTop: "-55%",
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: "white",
+    backgroundColor: "grey",
     alignItems: 'center',
   },
   map: {

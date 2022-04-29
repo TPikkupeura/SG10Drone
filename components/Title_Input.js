@@ -10,7 +10,6 @@ import { IconButton, Colors } from 'react-native-paper';
 export const Title_Input = ({sentence: {sentence: title, inputType: inputType, predefined: predefined }, id, answ, setAnsw}) => {
     const [isPickerShow, setIsPickerShow] = useState(false);
     const [date, setDate] = useState("");
-    const [changeOnDate, setChangeOnDate] = useState(false);
     const [posNotes, setPosNotes] = useState(false);
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
@@ -212,14 +211,16 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
     const inputCheck = () => {
         if(inputType === "check"){
             return(
+                <View style={[{marginLeft: "1.2%"}]}>
                 <Checkbox
                 key={uuid.v4()}
                 status={(answ[id] === "checked")? 'checked' : 'unchecked'}
-                color='red'
+                color="#71a1e3"
                 onPress={() => {
                     (answ[id] === undefined || answ[id] === "unchecked")? saveInput("checked"): saveInput("unchecked")
                 }}
              />
+             </View>
              )
             }
     }
@@ -325,9 +326,9 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
     const inputMap = () => {
         if(inputType === "gps"){
             return(
-                <>
+                <View>
                     <Text>Position notes:</Text>
-                    <View style={[styles.Item ,{flexDirection: 'row', marginVertical: "-1%"}]}>
+                    <View style={[styles.Item ,{flexDirection: 'row', marginVertical: "-1%",}]}>
                         <TextInput
                         key={uuid.v4()}
                         style={[styles.text, {color:"black"}]}
@@ -351,12 +352,14 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
                                           "lo: " + (answ[id].longitude).toFixed(4)}
                                     </Text>:null}
                 {showMap?
-                <ShowMap
-                    saveGps={saveInput}
-                    loadedGps={(answ[id] != undefined)? answ[id] : {}}
-                />:null}
+                <View style={[{position:"absolute", zIndex: 100, marginLeft: "4%",}]}>
+                    <ShowMap
+                        saveGps={saveInput}
+                        loadedGps={(answ[id] != undefined)? answ[id] : {}}
+                    />
+                </View>:null}
         
-                </>
+                </View>
             )
         }
     }

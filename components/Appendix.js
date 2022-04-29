@@ -176,12 +176,11 @@ export default function Appendix({route, navigation}) {
 
 const styles = StyleSheet.create({
   scroll : {
-    height: '79%',
+    height: '78%',
   },
   container: {
     flex: 1,
     backgroundColor: 'white',
-    height: '20%',
   },
   contentContainerStyle: {
     alignItems: 'flex-start',
