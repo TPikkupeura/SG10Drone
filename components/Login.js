@@ -2,25 +2,24 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState } from 'react'
 
 import { View, Text, Image, TouchableOpacity, TextInput } from 'react-native'
-import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
 import { firebase, auth, USERS } from "../firebase/Config.js"
 import styles from '../style/Style.js'
+import { setUser } from '../components/Functions'
 
 /* 27.4.22 - Contains code provided from the teacher, unfortunately the screenshot ends at a crucial point on line 44.  */
-
 function Login({navigation}) {
 
   const [loginEmail, setEmail] = useState("");
   const [loginPassword, setPassword] = useState("");
 
-  const [user, setUser] = useState({});
+ //const [user, setUser] = useState({});
 
-   onAuthStateChanged(auth, (currentUser) => {
+  /*  onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-    });
+    }); */
 
 
-  const login = async () => {
+ /* const login = async () => {
    try {
      const user = await signInWithEmailAndPassword(
        auth,
@@ -33,29 +32,33 @@ function Login({navigation}) {
      console.log(error.message);
    }
  };
+*/
 
-   /*
- const login = async () => {
+const login = async () => {
   try {
     if (loginEmail.trim()!=='') {
       if (loginPassword.trim()!=='') {
         await firebase.auth().signInWithEmailAndPassword(loginEmail,loginPassword);
         const currentUser = firebase.auth().currentUser;
-        firebase.firestore().collection(USERS).doc(currentUser.email).get();
-        if (documentSnapshot.exists) {
-          const nickname = documentSnapshot.data().nickname;
-          const userJson = JSON.stringify({
-            "email" : currentUser.email,
-            "nickname" : nickname
-          });
-          setUser(userJson);
-        }
-      });
-
+        firebase.firestore().collection(USERS).doc(currentUser.email).get().then(documentSnapshot => {
+          if (documentSnapshot.exists) {
+            const nickname = documentSnapshot.data().nickname;
+            const userJson = JSON.stringify({
+              "email" : currentUser.email,
+              "nickname" : nickname
+            });
+            setUser(userJson);
+            console.log(userJson);
+            navigation.navigate('Mission');
+          }
+        });
+      }
     }
   }
- }
-*/
+  catch (error) {
+    console.error(error.message);
+  }
+};
 
 
 

@@ -128,11 +128,18 @@ export default function Appendix({route, navigation}) {
     onPress={saveAnswers}
   />
         <IconButton
-    style={[{ marginLeft: "25%"}]}
+    style={[{ marginLeft: "12%"}]}
     icon="home"
     color={Colors.black900}
     size={40}
     onPress={()=> {navigation.navigate('Mission')}}
+  />
+      <IconButton
+        style={[{ marginLeft: "12%"}]}
+        icon="alert"
+        color={Colors.black900}
+        size={40}
+        onPress={()=> {navigation.navigate('Mission')}}
   />
         <IconButton
     style={[{position: 'absolute', right: 0, marginTop: "4%",}]}

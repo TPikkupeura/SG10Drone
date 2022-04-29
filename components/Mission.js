@@ -1,10 +1,10 @@
-import { Text, View, Button, TextInput, Alert, ScrollView, Pressable, TouchableOpacity } from 'react-native';
+import { Text, View, TextInput, Alert, ScrollView, Pressable, TouchableOpacity } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {db, LOGS, DRONES} from '../firebase/Config';
 import Entypo from '@expo/vector-icons/Entypo';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import SelectDropdown from 'react-native-select-dropdown';
-import uuid from 'react-native-uuid';
+import { getUser } from '../components/Functions';
 import styles from '../style/Style';
 
 export default function Mission({navigation}) { 
@@ -16,8 +16,14 @@ export default function Mission({navigation}) {
     const [drone, setDrone] = useState('');
     const [drones, setDrones] = useState({});
     const [userId, setUserId] = useState("test1"); // TEMPORARY
+    //const user = useRef(null);
 
-    //const { loginEmail } = require('../components/Login');
+   /*  useEffect(() => {
+      (async() => {
+        user.current = await getUser();
+      })();
+
+    }, []); */
 
     //DRONES
     const inputDrone = () => {
