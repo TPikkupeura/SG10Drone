@@ -7,8 +7,14 @@ import styles from '../style/Style';
 export default function EmTitles({navigation}) {
   
   const [titles, setTitles] = useState({});
+  const [title, setTitle] = useState('');
+  const [lowerTitles, setLowerTitles] = useState({});
+  
+  const RefPath = db.ref(APPENDIX).child('caseOfEm');
+  let sentence;
 
   const InputTitles = () => {
+
     return(
     <View>
       {EmTitleKeys.length > 0 ? (
@@ -22,11 +28,9 @@ export default function EmTitles({navigation}) {
             marginTop: 5,
             backgroundColor: "#71A1E3"
         }}
-            data={EmTitleKeys}
+            data={RefPath.child(key).child('sentence').on('value',(snapshot)=> {sentence = snapshot.val();})}
             defaultButtonText= {key}
-            onSelect={(selectedItem, index) => {
-                setDrone(selectedItem);
-            }}
+            onSelect={() => navigation.navigate('CaseOfEm', {title: key})}
             buttonTextAfterSelection={(selectedItem, index) => {
                 return selectedItem;
             }}
