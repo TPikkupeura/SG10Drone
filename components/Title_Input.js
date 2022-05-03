@@ -120,8 +120,10 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
       };
 
     const formatDate = (date, time) => {
-        return `${date.getDate()}-${date.getMonth() +
-          1}-${date.getFullYear()} ${time.getHours()<10? "0"+time.getHours(): time.getHours()}:${time.getMinutes()<10? "0"+time.getMinutes(): time.getMinutes()}`;
+        if(date instanceof Date){
+            return `${date.getDate()}-${date.getMonth() +
+            1}-${date.getFullYear()} ${time.getHours()<10? "0"+time.getHours(): time.getHours()}:${time.getMinutes()<10? "0"+time.getMinutes(): time.getMinutes()}`;
+        }
       };
     
       const onChange = (event, value) => {
@@ -179,7 +181,7 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
       };
 
     function parseDate(date){
-        if(date != ""){
+        if(date != "" && date instanceof Date){
             var year = date.getFullYear()
             var month = (date.getMonth().toString().length < 2 ? "0"+(date.getMonth()+1).toString() :date.getMonth()+1);
             var day = (date.getDate().toString().length < 2 ? "0"+date.getDate().toString() :date.getDate());
