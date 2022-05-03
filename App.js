@@ -6,6 +6,7 @@ import FrontPage from './components/FrontPage';
 import Appendix from './components/Appendix';
 import Mission from './components/Mission';
 import EmTitles from './components/EmTitles';
+import LowerEmTitles from './components/LowerEmTitles';
 import CaseOfEm from './components/CaseOfEm'
 
 const Stack = createNativeStackNavigator();
@@ -20,6 +21,7 @@ export default function App(){
                 <Stack.Screen name="FrontPage" component={FrontPage} options={{headerShown: true}}/>
                 <Stack.Screen name="Appendix" component={Appendix} options={{headerShown: false}}/>
                 <Stack.Screen name="EmTitles" component={EmTitles} options={{headerShown: true}}/>
+                <Stack.Screen name="LowerEmTitles" component={LowerEmTitles} options={{headerShown: true}}/>
                 <Stack.Screen name="CaseOfEm" component={CaseOfEm} options={{headerShown: true}}/>
             </Stack.Navigator>
         </NavigationContainer>
