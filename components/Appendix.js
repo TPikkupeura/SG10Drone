@@ -3,7 +3,7 @@ import {db, APPENDIX, LOGS} from '../firebase/Config';
 import { useEffect, useState } from 'react';
 import { Title_Input } from './Title_Input';
 import uuid from 'react-native-uuid';
-import { IconButton, Colors } from 'react-native-paper';
+import { IconButton, Colors } from 'react-native-paper';import { LogBox } from 'react-native';
 
 export default function Appendix({route, navigation}) {
   const [data, setData] = useState({});
@@ -115,7 +115,7 @@ export default function Appendix({route, navigation}) {
   }
 
   let dataKeys = Object.keys(data);
-
+  LogBox.ignoreLogs(['Setting a timer']);
    return (
     <View
       style={styles.container}
