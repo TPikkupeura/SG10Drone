@@ -67,7 +67,7 @@ export default function Mission({navigation}) {
     };
     LogBox.ignoreLogs(['Setting a timer']);
     function parseDate(date){
-      if(date != "" && date instanceof Date){
+      if(date != ""){
             var year = date.getFullYear()
             var month = (date.getMonth().toString().length < 2 ? "0"+(date.getMonth()+1).toString() :date.getMonth()+1);
             var day = (date.getDate().toString().length < 2 ? "0"+date.getDate().toString() :date.getDate());
