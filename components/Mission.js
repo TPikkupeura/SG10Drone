@@ -6,6 +6,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import SelectDropdown from 'react-native-select-dropdown';
 import { getUser } from '../components/Functions';
 import styles from '../style/Style';
+import { LogBox } from 'react-native';
 
 export default function Mission({navigation}) { 
 
@@ -64,9 +65,9 @@ export default function Mission({navigation}) {
         setIsPickerShow(false);
       }
     };
-
+    LogBox.ignoreLogs(['Setting a timer']);
     function parseDate(date){
-        if(date != ""){
+      if(date != "" && date instanceof Date){
             var year = date.getFullYear()
             var month = (date.getMonth().toString().length < 2 ? "0"+(date.getMonth()+1).toString() :date.getMonth()+1);
             var day = (date.getDate().toString().length < 2 ? "0"+date.getDate().toString() :date.getDate());
@@ -112,18 +113,36 @@ export default function Mission({navigation}) {
     }, []);
 
     function addNewMission() {
-      if(newMission.trim() !== "") {
-        db.ref(LOGS).push({
-          date: missionDate,
-          missionItem: newMission,
-          drone: drone,
-          userId: userId,
-          answers: ""
-        })
-        setNewMission('');
-        setMissionDate('');
-        setDrone('');
+      let ddate, ddrone, mmision = false;
+      if(missionDate === '' || missionDate === undefined){
+        ddate = true;
       }
+      if(newMission === ''){
+        mmision = true;
+      }
+      if(drone === ''){
+        ddrone = true;
+      }
+      if(newMission.trim() !== "" &&  !ddate && !ddrone && !mmision) {
+          db.ref(LOGS).push({
+            date: missionDate,
+            missionItem: newMission,
+            drone: drone,
+            userId: userId,
+            answers: ""
+          })
+          setNewMission('');
+          setMissionDate('');
+          setDrone('');
+        }
+    else{
+      Alert.alert("You forgot to add something", "To create new mission you need to add values for:\n\n"+(ddrone?" Drone type.\n":"")+ (mmision?" Mission title.\n":"")+(ddate?" Date of mission.\n":""), [{
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel"
+      }],
+      { cancelable: false});
+    };
     }
 
     const MissionItem = ({missionItem: {missionItem: title, date, drone}, id}) => {
