@@ -16,8 +16,9 @@ export default function Mission({route, navigation}) {
     const [drone, setDrone] = useState('');
     const [drones, setDrones] = useState({});
     //const [userId, setUserId] = useState("test1"); // TEMPORARY
+    //const [user, setUser] = useState(null);
     const { userId } = route.params
-
+    let user = userId;
     //DRONES
     const inputDrone = () => {
           return(
@@ -137,40 +138,42 @@ export default function Mission({route, navigation}) {
     };
     }
 
-    const MissionItem = ({missionItem: {missionItem: title, date, drone}, id}) => {
-      
-       const onRemove = () => {
-          db.ref(LOGS + [id]).remove();
-      };
+    const MissionItem = ({missionItem: {missionItem: title, date, drone, userId}, id}) => {
+      if(userId === user){
+        const onRemove = () => {
+            db.ref(LOGS + [id]).remove();
+        };
 
-      const createTwoButtonAlert = () => Alert.alert(
-        "Missions", "Remove mission?", [{
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        {
-          text: "OK", onPress: () => onRemove()
-        }],
-        { cancelable: false}
-      );
-      
+        const createTwoButtonAlert = () => Alert.alert(
+          "Missions", "Remove mission?", [{
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          {
+            text: "OK", onPress: () => onRemove()
+          }],
+          { cancelable: false}
+        );
+        
 
-      return (
-          <View style={styles.missionItem}>
-              <Pressable onPress={() => navigation.navigate("FrontPage", {missionId: id, userId: userId})}>
-                <View style={styles.missionText}>
-                  <Text>{title}</Text>
-                  <Text>{date}</Text>
-                  <Text>Drone: {drone}</Text>
-                </View>
-              </Pressable>
-              <Pressable>
-                  <Entypo name={'trash'} size={32} onPress={createTwoButtonAlert}/>
-              </Pressable>
-          </View>
-      );
-  }
+        return (
+            <View style={styles.missionItem}>
+                <Pressable onPress={() => navigation.navigate("FrontPage", {missionId: id, userId: userId})}>
+                  <View style={styles.missionText}>
+                    <Text>{title}</Text>
+                    <Text>{date}</Text>
+                    <Text>Drone: {drone}</Text>
+                  </View>
+                </Pressable>
+                <Pressable>
+                    <Entypo name={'trash'} size={32} onPress={createTwoButtonAlert}/>
+                </Pressable>
+            </View>
+        );
+    }
+    else{return(<></>)}
+}
 
   let missionKeys = Object.keys(missions);
   let droneKeys = Object.keys(drones);

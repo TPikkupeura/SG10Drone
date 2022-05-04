@@ -26,14 +26,14 @@ function Login({navigation}) {
        loginEmail,
        loginPassword
      );
-     console.log(user);
+     //console.log(user);
      navigation.navigate('Mission', {userId: loginEmail})
    } catch (error) {
      console.log(error.message);
    }
  };
 
- console.log(loginEmail);
+ //console.log(loginEmail);
 
 
    return (

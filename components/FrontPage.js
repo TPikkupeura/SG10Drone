@@ -16,7 +16,7 @@ export default function FrontPage({route, navigation}) {
                   "PreFlightChecklist",
                   "PreFlightPreparationOnSite",
                   "WhileOnFlight"]
-  const {missionId} = route.params;
+  const {missionId, userId} = route.params;
   const [emObj, setEmObj] = useState();
 
   useEffect(()=>{
