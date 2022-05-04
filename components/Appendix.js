@@ -7,9 +7,9 @@ import { IconButton, Colors } from 'react-native-paper';import { LogBox } from '
 
 export default function Appendix({route, navigation}) {
   const [data, setData] = useState({});
-  const { misId, title, topHeader, appenHeader } = route.params;
+  const { misId, title, topHeader, appenHeader, userId } = route.params;
   const [titleNum, setTitleNum] = useState(title); // copy constant title to titleNum
-  const [userId, setUserId] = useState("test1"); //here needs to be user key for now is constant
+  //const [userId, setUserId] = useState("test1"); //here needs to be user key for now is constant
   const [missionId, setMissionId] = useState(misId) // static mission 7 for now
   const [missionDate, setMissionDate] = useState("12-12-2022") //for now
   const [answers, setAnswers] = useState({})
@@ -85,7 +85,6 @@ export default function Appendix({route, navigation}) {
     if(authorizeAccess){ //store answers from db to answers useState
       db.ref(LOGS).child(missionId).child("answers").on('value', (snapshot)=> {setAnswers(snapshot.val());});
     }
-    //console.log(answers); //loaded answers from db
     // db.ref(LOGS).child(missionId).child("date").child(missionDate).on('value', (snapshot)=> {console.log(snapshot.val());});
   },[])
 
@@ -132,7 +131,7 @@ export default function Appendix({route, navigation}) {
     icon="home"
     color={Colors.black900}
     size={40}
-    onPress={()=> {navigation.navigate('Mission')}}
+    onPress={()=> {navigation.navigate('Mission', {userId: userId})}}
   />
       <IconButton
         style={[{ marginLeft: "12%"}]}

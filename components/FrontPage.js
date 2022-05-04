@@ -30,12 +30,12 @@ export default function FrontPage({route, navigation}) {
     
       
         <TouchableOpacity style={styles.Btn}
-       onPress={()=> navigation.navigate('Appendix',{topHeader:"appen1/", title:0, appenHeader:appen1, misId:missionId})}>  
+       onPress={()=> navigation.navigate('Appendix',{topHeader:"appen1/", title:0, appenHeader:appen1, misId:missionId, userId:userId})}>  
          <Text style={styles.loginText}>Planning</Text>
        </TouchableOpacity>
 
         <TouchableOpacity style={styles.Btn}
-       onPress={()=> navigation.navigate('Appendix',{topHeader:"appen2/", title:0, appenHeader:appen2, misId:missionId})}>    
+       onPress={()=> navigation.navigate('Appendix',{topHeader:"appen2/", title:0, appenHeader:appen2, misId:missionId, userId:userId})}>    
          <Text style={styles.loginText}>Flight</Text>
        </TouchableOpacity>
       
