@@ -27,9 +27,9 @@ export default function EmTitles({route}) {
                <Text>{title}</Text>
              </View>
            </Pressable>
-           {show ? (
+           {show && (
                <Text>{predefined}</Text>
-           ) : null}
+           )}
        </View>
    );
 }

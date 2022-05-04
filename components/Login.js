@@ -5,7 +5,6 @@ import { View, Text, Image, TouchableOpacity, TextInput } from 'react-native'
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
 import { firebase, auth, USERS } from "../firebase/Config.js"
 import styles from '../style/Style.js'
-import { setUser } from '../components/Functions'
 
 /* 27.4.22 - Contains code provided from the teacher, unfortunately the screenshot ends at a crucial point on line 44.  */
 function Login({navigation}) {
@@ -28,12 +27,13 @@ function Login({navigation}) {
        loginPassword
      );
      console.log(user);
-     navigation.navigate('Mission')
+     navigation.navigate('Mission', {userId: loginEmail})
    } catch (error) {
      console.log(error.message);
    }
  };
 
+ console.log(loginEmail);
 
 
    return (

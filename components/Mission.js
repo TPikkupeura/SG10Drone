@@ -4,11 +4,10 @@ import {db, LOGS, DRONES} from '../firebase/Config';
 import Entypo from '@expo/vector-icons/Entypo';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import SelectDropdown from 'react-native-select-dropdown';
-import { getUser } from '../components/Functions';
 import styles from '../style/Style';
 import { LogBox } from 'react-native';
 
-export default function Mission({navigation}) { 
+export default function Mission({route, navigation}) { 
 
     const [newMission, setNewMission] = useState('');
     const [missions, setMissions] = useState({});
@@ -16,15 +15,8 @@ export default function Mission({navigation}) {
     const [isPickerShow, setIsPickerShow] = useState(false);
     const [drone, setDrone] = useState('');
     const [drones, setDrones] = useState({});
-    const [userId, setUserId] = useState("test1"); // TEMPORARY
-    //const user = useRef(null);
-
-   /*  useEffect(() => {
-      (async() => {
-        user.current = await getUser();
-      })();
-
-    }, []); */
+    //const [userId, setUserId] = useState("test1"); // TEMPORARY
+    const { userId } = route.params
 
     //DRONES
     const inputDrone = () => {
@@ -166,7 +158,7 @@ export default function Mission({navigation}) {
 
       return (
           <View style={styles.missionItem}>
-              <Pressable onPress={() => navigation.navigate("FrontPage", {missionId: id})}>
+              <Pressable onPress={() => navigation.navigate("FrontPage", {missionId: id, userId: userId})}>
                 <View style={styles.missionText}>
                   <Text>{title}</Text>
                   <Text>{date}</Text>
