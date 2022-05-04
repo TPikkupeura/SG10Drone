@@ -19,6 +19,19 @@ export default function EmTitles({route}) {
 
   const EmItem = ({emItem: {sentence: title, predefined}, id}) => {
         
+    const rendEm = () => {
+      let rendArr = [];
+      for(let i = 0; i < predefined.length; i++){
+          rendArr.push(<Text
+                          key={i}
+                          style={[styles.text,{backgroundColor: "lightblue"}]}
+                          >
+                      {predefined[i]}
+                      </Text>);
+      }
+      return rendArr;
+  }
+
   console.log(id);
    return (
        <View style={styles.container}>
@@ -28,7 +41,9 @@ export default function EmTitles({route}) {
              </View>
            </Pressable>
            {show && (
-                <Text>{predefined}</Text>
+                <View>
+                  {rendEm()}
+                </View>
            )}
        </View>
    );
