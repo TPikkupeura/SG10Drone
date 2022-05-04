@@ -41,7 +41,7 @@ export default function FrontPage({route, navigation}) {
       
 
         <TouchableOpacity style={styles.Btn}
-       onPress={()=> navigation.navigate('CaseOfEm',{emObject:emObj})}> 
+       onPress={()=> navigation.navigate('EmTitles',{emObject:emObj})}> 
          <Text style={styles.loginText}>Case of Emergency</Text>
        </TouchableOpacity>
       
