@@ -195,6 +195,7 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
 
     const inputText = () => {
         if(inputType === "text"){
+            let texT;
             return (
                 <TextInput
                 key={uuid.v4()}
@@ -204,8 +205,8 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
                 placeholderTextColor={(null !== "input")?"black":"gray"} 
                 autoCapitalize="words"
                 editable={true}
-                onChangeText={text => saveInput(text)}
-                onSubmitEditing={()=> null} //optional
+                onChangeText={text => (texT = text)}
+                onSubmitEditing={() => saveInput(texT)} //optional
                 />
             )
             }
@@ -327,6 +328,7 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
 
     const inputMap = () => {
         if(inputType === "gps"){
+            let texT;
             return(
                 <View>
                     <Text>Position notes:</Text>
@@ -339,8 +341,8 @@ export const Title_Input = ({sentence: {sentence: title, inputType: inputType, p
                         placeholderTextColor={(null !== "input")?"black":"gray"} 
                         autoCapitalize="words"
                         editable={true}
-                        onChangeText={text => setPosNotes(text)}
-                        onSubmitEditing={()=> null} //optional
+                        onChangeText={text => (texT = text)}
+                        onSubmitEditing={() => setPosNotes(texT)} //optional
                     />
                               <IconButton
               style={[{marginHorizontal: "0%"}]}
