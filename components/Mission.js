@@ -161,9 +161,9 @@ export default function Mission({route, navigation}) {
             <View style={styles.missionItem}>
                 <Pressable onPress={() => navigation.navigate("FrontPage", {missionId: id, userId: userId})}>
                   <View style={styles.missionText}>
-                    <Text>{title}</Text>
-                    <Text>{date}</Text>
-                    <Text>Drone: {drone}</Text>
+                    <Text style={styles.missionInformation}>{title}</Text>
+                    <Text style={styles.missionInformation}>{date}</Text>
+                    <Text >Drone: {drone}</Text>
                   </View>
                 </Pressable>
                 <Pressable>

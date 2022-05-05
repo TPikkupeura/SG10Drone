@@ -70,6 +70,18 @@ export default StyleSheet.create({
     backgroundColor: "#71A1E3",
   },
 
+  EmBtn: {
+    width: '90%',
+    marginTop: 10,
+    marginBottom: 10,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#71A1E3",
+  },
+
   missionContainer: {
     flex: 1,
     alignItems: "center",
@@ -113,15 +125,27 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   missionText: {
+      backgroundColor: 'lightblue',
       borderColor: '#afafaf',
-      paddingHorizontal: 8,
-      paddingVertical: 5,
+      paddingHorizontal: 20,
+      paddingVertical: 10,
       borderWidth: 1,
       borderRadius: 5,
       marginRight: 20,
       marginLeft: 20,
-      minWidth: '70%'
+      minWidth: '70%',
   },
+  missionInformation: {
+    fontWeight: '600',
+    fontSize: 15
+  },
+  EmInformation: {
+    fontWeight: '600',
+    fontSize: 15,
+    marginBottom: 10,
+    marginHorizontal: 10
+  },
+
   EmHeader: {
     backgroundColor: "#71a1e3",
     flexDirection: 'row',
